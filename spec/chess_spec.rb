@@ -1,9 +1,11 @@
 # frozen_string_literal: false
 
 require_relative '../lib/board'
+require_relative '../lib/pieces/king'
 
 describe Board do
   let(:board) { Board.new }
+  let(:piece) { King.new('white')}
 
   describe '#out_of_bounds?' do
     context 'when the move is out of bounds' do
@@ -19,8 +21,8 @@ describe Board do
   describe '#place' do
     context 'when a piece is to be placed' do
       it 'places piece in the desired position' do
-        board.place('A', 0, 0)
-        expect(board.grid[0][0]).to eq 'A'
+        board.place(piece, 0, 0)
+        expect(board.grid[0][0]).to eq piece
       end
     end
   end

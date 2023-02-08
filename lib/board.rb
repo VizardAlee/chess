@@ -25,7 +25,7 @@ class Board
         if col.nil?
           print ' '
         else
-          print col.to_s + ' '
+          print "#{col} "
         end
       end
       puts '|'
