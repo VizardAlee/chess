@@ -15,6 +15,21 @@ class Board
   def place(piece, row, col)
     grid[row][col] = piece unless out_of_bounds?(row, col)
   end
-  # display board
-end
 
+  def layout
+    puts '  a b c d e f g h'
+    puts '  ----------------'
+    grid.each_with_index do |row, num|
+      print 8 - num, '|'
+      row.each do |col|
+        if col.nil?
+          print ' '
+        else
+          print col.to_s + ' '
+        end
+      end
+      puts '|'
+    end
+    puts '  ----------------'
+  end
+end
