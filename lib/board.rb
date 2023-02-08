@@ -8,15 +8,13 @@ class Board
     @grid = Array.new(8) { Array.new(8, '-') }
   end
 
-  def out_of_bounds?(loc)
-    row, col = loc
+  def out_of_bounds?(row, col)
     row.negative? || row > grid.length || col.negative? || col > grid.first.length ? true : false
   end
-  # create conditions to keep moves in-bound
-  # create method to get location of pieces
+
+  def place(piece, row, col)
+    grid[row][col] = piece unless out_of_bounds?(row, col)
+  end
   # display board
 end
 
-b = Board.new
-p b.out_of_bounds?([2, 3])
-p b.grid
