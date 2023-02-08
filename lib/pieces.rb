@@ -1,5 +1,8 @@
 # frozen_string_literal: false
 
+# pieces class
+class Pieces
+end
 # white_king = "\u{2654}"
 # white_queen = "\u{2655}"
 # white_bishop = "\u{2657}"
