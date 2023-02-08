@@ -6,10 +6,9 @@
 
 # Bishop class
 class Bishop
-  attr_accessor :color
-
-  def initialize(color)
-    @color = color
+  def possible_moves
+    # Moves moves any number of squares diagonally
+    [[-1, -1], [-1, 1], [1, 1], [1, -1]]
   end
 
   def to_s

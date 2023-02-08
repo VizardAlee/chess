@@ -2,10 +2,9 @@
 
 # queen class
 class Queen
-  attr_accessor :color
-
-  def initialize(color)
-    @color = color
+  def possible_moves
+    # king moves in any number of squares in any direction
+    [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]]
   end
 
   def to_s

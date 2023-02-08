@@ -4,10 +4,9 @@
 
 # rook class
 class Rook
-  attr_accessor :color
-
-  def initialize(color)
-    @color = color
+  def possible_moves
+    # rook moves in any number of squares in vertically or horizontally
+    [[-1, 0], [0, 1], [1, 0], [0, -1]]
   end
 
   def to_s

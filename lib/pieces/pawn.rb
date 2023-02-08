@@ -2,10 +2,9 @@
 
 # pawn class
 class Pawn
-  attr_accessor :color
-
-  def initialize(color)
-    @color = color
+  def possible_moves
+    # king moves one square in any direction
+    [[-1, 0]]
   end
 
   def to_s

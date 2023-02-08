@@ -2,10 +2,9 @@
 
 # knight class
 class Knight
-  attr_accessor :color
-
-  def initialize(color)
-    @color = color
+  def possible_moves
+    # knight moves in L shapes
+    [[-2, -1], [-2, 1], [1, 2], [-1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
   end
 
   def to_s
