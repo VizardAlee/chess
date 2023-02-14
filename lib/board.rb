@@ -1,5 +1,8 @@
 # frozen_string_literal: false
 
+require_relative './pieces/king'
+require_relative './pieces/queen'
+
 # board class
 class Board
   attr_reader :grid
@@ -33,3 +36,9 @@ class Board
     puts '  ----------------'
   end
 end
+
+b = Board.new
+q = Queen.new('white', [7, 4])
+
+p q.move(b, 4, 8)
+b.layout

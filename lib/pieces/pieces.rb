@@ -2,6 +2,8 @@
 
 # chess piece class
 class ChessPiece
+  attr_reader :position, :color
+
   def initialize(color, position)
     @color = color
     @position = position

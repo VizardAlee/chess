@@ -20,3 +20,15 @@ class King < ChessPiece
     end
   end
 end
+
+class Board
+  attr_reader :grid
+
+  def initialize
+    @grid = Array.new(8) { Array.new(8, '') }
+  end
+
+  def out_of_bounds?(row, col)
+    row.negative? || row > grid.length || col.negative? || col > grid.first.length ? true : false
+  end
+end
