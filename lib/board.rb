@@ -12,7 +12,11 @@ class Board
   end
 
   def out_of_bounds?(row, col)
-    row.negative? || row > grid.length || col.negative? || col > grid.first.length ? true : false
+    if row.negative? || row > 7 || col.negative? || col > 7
+      return true
+    else
+      return false
+    end
   end
 
   def place(piece, row, col)

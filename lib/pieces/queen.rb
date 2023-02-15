@@ -26,11 +26,14 @@ class Queen < ChessPiece
       possible_moves.each do |coordinate|
         row2, col2 = coordinate
         if board.grid[(row1 + row2)][(col1 + col2)] == board.grid[row][col]
-          return board.grid[row][col] = "\u{2655}"
+          board.grid[row][col] = self
+          update_position(row, col)
+          true
         end
       end
     rescue
       puts 'Invalid Move'
+      false
     end
   end
 end

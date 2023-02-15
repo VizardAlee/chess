@@ -23,16 +23,13 @@ class King < ChessPiece
   def move(board, row, col)
     row1, col1 = position
 
-    possible_moves.each do |coordinate|
-      row2, col2 = coordinate
-      if !board.out_of_bounds?(row, col) && board.grid[(row1 + row2)][(col1 + col2)] == board.grid[row][col]
-        board.grid[row][col] = color
-        update_position(row, col)
-        return true
-      end
-      # return board.grid[row][col] = color if board.grid[(row1 + row2)][(col1 + col2)] == board.grid[row][col]
+    # ensure the destination is within one square in any direction
+    if (row1 - row).abs <= 1 && (col1 - col).abs <= 1 && board.out_of_bounds?(row, col) == false
+      board.grid[row][col] = self
+      board.grid[row1][col1] = '-'
+      update_position(row, col)
+    else
+      puts 'invalid move'
     end
-    puts 'Invalid Move'
-    return false
   end
 end
