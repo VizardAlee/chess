@@ -2,7 +2,7 @@
 
 # chess piece class
 class ChessPiece
-  attr_reader :position, :color
+  attr_accessor :position, :color
 
   def initialize(color, position)
     @color = color
@@ -11,5 +11,9 @@ class ChessPiece
 
   def possible_moves
     raise NotImplementedError, 'Subclasses must  implement this method'
+  end
+
+  def update_position(row, col)
+    @position = row, col
   end
 end

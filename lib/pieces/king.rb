@@ -19,16 +19,20 @@ class King < ChessPiece
       puts "#{color} not valid"
     end
   end
-end
 
-class Board
-  attr_reader :grid
+  def move(board, row, col)
+    row1, col1 = position
 
-  def initialize
-    @grid = Array.new(8) { Array.new(8, '') }
-  end
-
-  def out_of_bounds?(row, col)
-    row.negative? || row > grid.length || col.negative? || col > grid.first.length ? true : false
+    possible_moves.each do |coordinate|
+      row2, col2 = coordinate
+      if !board.out_of_bounds?(row, col) && board.grid[(row1 + row2)][(col1 + col2)] == board.grid[row][col]
+        board.grid[row][col] = color
+        update_position(row, col)
+        return true
+      end
+      # return board.grid[row][col] = color if board.grid[(row1 + row2)][(col1 + col2)] == board.grid[row][col]
+    end
+    puts 'Invalid Move'
+    return false
   end
 end

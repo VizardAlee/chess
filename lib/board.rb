@@ -36,9 +36,3 @@ class Board
     puts '  ----------------'
   end
 end
-
-b = Board.new
-q = Queen.new('white', [7, 4])
-
-p q.move(b, 4, 8)
-b.layout
