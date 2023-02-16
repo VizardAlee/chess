@@ -5,9 +5,8 @@ class ChessPiece
   attr_accessor :position
   attr_reader :color
 
-  def initialize(color, row, col)
+  def initialize(color)
     @color = color
-    @position = row, col
   end
 
   def update_position(row, col)

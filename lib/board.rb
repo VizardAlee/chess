@@ -29,7 +29,3 @@ class Board
     puts '  ----------------'
   end
 end
-
-board = Board.new
-board.layout
-p board.in_bound?(0, 0)
