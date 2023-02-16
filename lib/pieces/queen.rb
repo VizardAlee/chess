@@ -19,21 +19,4 @@ class Queen < ChessPiece
       puts "#{color} not valid"
     end
   end
-
-  def move(board, row, col)
-    row1, col1 = position
-    begin
-      possible_moves.each do |coordinate|
-        row2, col2 = coordinate
-        if board.grid[(row1 + row2)][(col1 + col2)] == board.grid[row][col]
-          board.grid[row][col] = self
-          update_position(row, col)
-          true
-        end
-      end
-    rescue
-      puts 'Invalid Move'
-      false
-    end
-  end
 end

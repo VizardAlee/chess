@@ -11,18 +11,6 @@ class Board
     @grid = Array.new(8) { Array.new(8, '-') }
   end
 
-  def out_of_bounds?(row, col)
-    if row.negative? || row > 7 || col.negative? || col > 7
-      return true
-    else
-      return false
-    end
-  end
-
-  def place(piece, row, col)
-    grid[row][col] = piece unless out_of_bounds?(row, col)
-  end
-
   def layout
     puts '  a b c d e f g h'
     puts '  ----------------'

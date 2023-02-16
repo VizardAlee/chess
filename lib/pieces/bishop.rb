@@ -1,13 +1,10 @@
 # frozen_string_literal: false
 
-# frozen_string_literal: false
-
-# frozen_string_literal: false
+require_relative 'pieces'
 
 # Bishop class
-class Bishop
+class Bishop < ChessPiece
   def possible_moves
-    # Moves moves any number of squares diagonally
     [[-1, -1], [-1, 1], [1, 1], [1, -1]]
   end
 
