@@ -1,8 +1,5 @@
 # frozen_string_literal: false
 
-require_relative './pieces/king'
-require_relative './pieces/queen'
-
 # board class
 class Board
   attr_reader :grid
@@ -11,11 +8,15 @@ class Board
     @grid = Array.new(8) { Array.new(8, '-') }
   end
 
+  def in_bound?(row, col)
+    row >= 0 && row < 8 && col >= 0 && col < 8 ? true : false
+  end
+
   def layout
-    puts '  a b c d e f g h'
+    puts '  0 1 2 3 4 5 6 7'
     puts '  ----------------'
     grid.each_with_index do |row, num|
-      print 8 - num, '|'
+      print 0 + num, '|'
       row.each do |col|
         if col.nil?
           print ' '
@@ -28,3 +29,7 @@ class Board
     puts '  ----------------'
   end
 end
+
+board = Board.new
+board.layout
+p board.in_bound?(0, 0)
