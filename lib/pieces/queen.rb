@@ -18,6 +18,7 @@ class Queen < ChessPiece
     if delta_x.zero? || delta_y.zero? || delta_x == delta_y && board.in_bound?(row2, col2)
       if obstructed?(board, row1, col1, row2, col2) == false
         update_position(row2, col2)
+        board.grid[row1][col1] = '-'
         board.grid[row2][col2] = self
         true
       else

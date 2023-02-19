@@ -18,6 +18,7 @@ class King < ChessPiece
 
     raise 'Invalid move' if delta_x > 1 || delta_y > 1
 
+    board.grid[row1][col1] = '-'
     board.grid[row][col] = self
     update_position(row, col)
   end
