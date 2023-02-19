@@ -30,22 +30,6 @@ class Queen < ChessPiece
     end
   end
 
-  def obstructed?(board, row1, col1, row2, col2)
-    x_dir = col2 <=> col1
-    y_dir = row2 <=> row1
-
-    row = row1 + y_dir
-    col = col1 + x_dir
-
-    while [row, col] != [row2, col2]
-      return true if board.grid[row][col] != '-'
-
-      row += y_dir
-      col += x_dir
-    end
-    false
-  end
-
   def to_s
     case @color
     when 'white'
