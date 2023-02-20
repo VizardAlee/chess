@@ -5,6 +5,7 @@ require_relative '../lib/pieces/king'
 require_relative '../lib/pieces/pieces'
 require_relative '../lib/pieces/queen'
 require_relative '../lib/pieces/rook'
+require_relative '../lib/pieces/knight'
 
 describe King do
   describe '#move' do
@@ -43,13 +44,29 @@ describe Rook do
     let(:board) { Board.new }
     let(:rook) { Queen.new(:white) }
 
-    it 'allows the queen to move any square in any direction' do
+    it 'allows the Rook to move any square Veritcally or horizontally' do
       rook.update_position(0, 4)
       board.grid[0][4] = rook
       expect(rook.move(board, 0, 0)).to be_truthy
       expect(rook.move(board, 7, 0)).to be_truthy
       expect(board.grid[7][0]).to eq(rook)
       expect(rook.position).to eq([7, 0])
+    end
+  end
+end
+
+describe Knight do
+  describe '#move' do
+    let(:board) { Board.new }
+    let(:knight) { Knight.new(:white) }
+
+    it 'allows the Knight to move any square in an L direction' do
+      knight.update_position(0, 1)
+      board.grid[0][1] = knight
+      expect(knight.move(board, 2, 0)).to be_truthy
+      expect(knight.move(board, 3, 2)).to be_truthy
+      expect(board.grid[3][2]).to eq(knight)
+      expect(knight.position).to eq([3, 2])
     end
   end
 end
