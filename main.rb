@@ -34,5 +34,6 @@ knight.move(board, 1, 3)
 knight.move(board, 3, 2)
 pawn.move(board, 2, 6)
 pawn.move(board, 3, 6)
-# knight.move(board, 4, 0)
+player = Player.new('Aliyu', 'white')
+puts player.king
 board.layout
