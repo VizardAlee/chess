@@ -9,12 +9,13 @@ require_relative './pieces/pawn'
 
 # create player
 class Player
-  attr_reader :name
+  attr_reader :name, :pieces
   attr_accessor :king, :queen, :rook, :bishop, :knight, :pawn
 
   def initialize(name, color)
     @name = name
     @color = choose_piece(color)
+    @pieces = %i[king queen rook bishop knight pawn]
   end
 
   def choose_piece(color)
@@ -46,6 +47,3 @@ class Player
     @pawn = Pawn.new('black')
   end
 end
-
-player1 = Player.new('Aliyu', 'white')
-player2 = Player.new('Nuhu', 'black')
