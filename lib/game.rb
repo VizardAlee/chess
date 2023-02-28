@@ -121,6 +121,90 @@ class Game
     player2.pawn8.update_position(1, 7)
   end
 
+  def white_move(piece, spot)
+    row = spot.first
+    col = spot.last
+    case piece.to_sym
+    when :king
+      player1.king.move(@board, row, col)
+    when :queen
+      player1.queen.move(@board, row, col)
+    when :rook1
+      player1.rook1.move(@board, row, col)
+    when :rook2
+      player1.rook2.move(@board, row, col)
+    when :bishop1
+      player1.bishop1.move(@board, row, col)
+    when :bishop2
+      player1.bishop2.move(@board, row, col)
+    when :knight1
+      player1.knight1.move(@board, row, col)
+    when :knight2
+      player1.knight2.move(@board, row, col)
+    when :pawn1
+      player1.pawn1.move(@board, row, col)
+    when :pawn2
+      player1.pawn2.move(@board, row, col)
+    when :pawn3
+      player1.pawn3.move(@board, row, col)
+    when :pawn4
+      player1.pawn4.move(@board, row, col)
+    when :pawn5
+      player1.pawn5.move(@board, row, col)
+    when :pawn6
+      player1.pawn6.move(@board, row, col)
+    when :pawn7
+      player1.pawn7.move(@board, row, col)
+    when :pawn8
+      player1.pawn8.move(@board, row, col)
+    else
+      puts "#{piece} is not a valid charcter"
+      false
+    end
+  end
+
+  def black_move(piece, spot)
+    row = spot.first
+    col = spot.last
+    case piece.to_sym
+    when :king
+      player2.king.move(@board, row, col)
+    when :queen
+      player2.queen.move(@board, row, col)
+    when :rook1
+      player2.rook1.move(@board, row, col)
+    when :rook2
+      player2.rook2.move(@board, row, col)
+    when :bishop1
+      player2.bishop1.move(@board, row, col)
+    when :bishop2
+      player2.bishop2.move(@board, row, col)
+    when :knight1
+      player2.knight1.move(@board, row, col)
+    when :knight2
+      player2.knight2.move(@board, row, col)
+    when :pawn1
+      player2.pawn1.move(@board, row, col)
+    when :pawn2
+      player2.pawn2.move(@board, row, col)
+    when :pawn3
+      player2.pawn3.move(@board, row, col)
+    when :pawn4
+      player2.pawn4.move(@board, row, col)
+    when :pawn5
+      player2.pawn5.move(@board, row, col)
+    when :pawn6
+      player2.pawn6.move(@board, row, col)
+    when :pawn7
+      player2.pawn7.move(@board, row, col)
+    when :pawn8
+      player2.pawn8.move(@board, row, col)
+    else
+      puts "#{piece} is not a valid charcter"
+      false
+    end
+  end
+
   def show
     board.layout
   end
