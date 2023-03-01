@@ -22,7 +22,7 @@ class Knight < ChessPiece
         board.grid[row2][col2] = self
         true
       else
-        puts 'Invalid move'
+        puts 'Invalid move really?'
         false
       end
     else
