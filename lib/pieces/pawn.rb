@@ -25,6 +25,11 @@ class Pawn < ChessPiece
   end
 
   def move(board, row2, col2)
+    if position == [nil, nil]
+      puts "#{self} has been taken"
+      return false
+    end
+
     if board.in_bound?(row2, col2)
       row1, col1 = position
       delta_x = (row1 - row2).abs

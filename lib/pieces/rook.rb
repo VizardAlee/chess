@@ -10,6 +10,11 @@ class Rook < ChessPiece
   end
 
   def move(board, row2, col2)
+    if position == [nil, nil]
+      puts "#{self} has been taken"
+      return false
+    end
+
     row1, col1 = position
     delta_x = (row1 - row2).abs
     delta_y = (col1 - col2).abs

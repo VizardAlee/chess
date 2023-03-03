@@ -5,10 +5,12 @@ require_relative 'player'
 
 # Game class
 class Game
-  attr_accessor :board, :player1, :player2
+  attr_accessor :board, :player1, :player2, :black_prisoner, :white_prisoner
 
   def initialize
     @board = Board.new
+    @black_prisoner = []
+    @white_prisoner = []
   end
 
   def create_player
@@ -161,6 +163,7 @@ class Game
       puts "#{piece} is not a valid charcter"
       false
     end
+    black_prisoner << @board.grid[row][col] if player2.pieces.team.any? { |val| val == @board.grid[row][col] }
   end
 
   def black_move(piece, spot)

@@ -10,6 +10,11 @@ class Knight < ChessPiece
   end
 
   def move(board, row, col)
+    if position == [nil, nil]
+      puts "#{self} has been taken"
+      return false
+    end
+
     if board.in_bound?(row, col)
       row1, col1 = position
       row2 = row
@@ -22,7 +27,7 @@ class Knight < ChessPiece
         board.grid[row2][col2] = self
         true
       else
-        puts 'Invalid move really?'
+        puts 'Invalid move'
         false
       end
     else

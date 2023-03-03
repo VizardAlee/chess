@@ -10,11 +10,16 @@ class ChessPiece
   end
 
   def update_position(row, col)
-    unless row.is_a?(Integer) && col.is_a?(Integer)
+    unless row.is_a?(Integer) && col.is_a?(Integer) || row.nil? && col.nil?
       raise ArgumentError, 'Position must be specified as [row, col] where both are integers'
     end
 
     @position = row, col
+  end
+
+  def taken_out(board)
+    row, col = position
+    update_position(nil, nil) if board.grid[row][col] != position
   end
 
   def obstructed?(board, row1, col1, row2, col2)

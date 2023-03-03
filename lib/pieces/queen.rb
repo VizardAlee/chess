@@ -10,6 +10,11 @@ class Queen < ChessPiece
   end
 
   def move(board, row, col)
+    if position == [nil, nil]
+      puts "#{self} has been taken"
+      return false
+    end
+
     row1, col1 = position
     row2 = row
     col2 = col

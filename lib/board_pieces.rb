@@ -10,7 +10,7 @@ require_relative './pieces/pawn'
 # all chess pieces invoked here
 class BoardPieces
   attr_accessor :king, :queen, :rook1, :rook2, :bishop1, :bishop2, :knight1, :knight2, :pawn1, :pawn2, :pawn3, :pawn4,
-                :pawn5, :pawn6, :pawn7, :pawn8
+                :pawn5, :pawn6, :pawn7, :pawn8, :team
 
   def initialize(color)
     @king = King.new(color)
@@ -29,5 +29,6 @@ class BoardPieces
     @pawn6 = Pawn.new(color)
     @pawn7 = Pawn.new(color)
     @pawn8 = Pawn.new(color)
+    @team = %i[king queen rook1 rook2 bishop1 bishop2 knight1 knight2 pawn1 pawn2 pawn3 pawn4 pawn5 pawn6 pawn7 pawn8]
   end
 end
