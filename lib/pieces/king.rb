@@ -5,14 +5,18 @@ require_relative 'pieces'
 # king class
 class King < ChessPiece
   def move_piece(board, row, col)
-    in_row, in_col = @position
-    delta_x = (in_row - row).abs
-    delta_y = (in_col - col).abs
-    if delta_x == 1 && delta_y == 1 || delta_x.zero? && delta_y == 1 || delta_x == 1 && delta_y.zero?
-      move(board, row, col)
-      board.grid[in_row][in_col] = '-'
-    else
-      puts 'Invalid move'
+    begin
+      in_row, in_col = @position
+      delta_x = (in_row - row).abs
+      delta_y = (in_col - col).abs
+      if delta_x == 1 && delta_y == 1 || delta_x.zero? && delta_y == 1 || delta_x == 1 && delta_y.zero?
+        move(board, row, col)
+        board.grid[in_row][in_col] = '-'
+      else
+        puts 'Invalid move'
+      end
+    rescue
+      not_on_board
     end
   end
 

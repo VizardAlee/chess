@@ -8,8 +8,12 @@ require_relative 'lib/pieces/queen'
 board = Board.new
 king = King.new('white')
 queen = Queen.new('white')
+bqueen = Queen.new('black')
 king.move(board, 4, 5)
 king.move_piece(board, 5, 5)
 queen.move(board, 0, 0)
-queen.move_piece(board, 7, 7)
+queen.move_piece(board, 4, 4)
+bqueen.move(board, 0, 5)
+bqueen.move_piece(board, 5, 5)
+king.move_piece(board, 6, 5)
 board.layout

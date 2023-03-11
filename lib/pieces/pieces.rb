@@ -27,6 +27,7 @@ class ChessPiece
 
   def check_opposition(board, row, col)
     if board.grid[row][col] == '-' || board.grid[row][col].color != color
+      take_out(board, row, col)
       board.grid[row][col] = self
       update_position(row, col)
     else
@@ -46,5 +47,14 @@ class ChessPiece
         return true
       end
     end
+    false
+  end
+
+  def take_out(board, row, col)
+    board.grid[row][col].position = [nil, nil] if board.grid[row][col] != '-' && board.grid[row][col].color != color
+  end
+
+  def not_on_board
+    puts "#{color} #{self.class} (#{self}) is not playable"
   end
 end
