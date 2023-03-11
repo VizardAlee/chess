@@ -11,12 +11,25 @@ class ChessPiece
   end
 
   def move(board, row, col)
+    board.grid[row][col] = self
+    update_position(row, col)
+=begin
     if board.in_bound?(row, col)
-      check_opposition(board, row, col)
+      if check_opposition(board, row, col) == true
+        take_out(board, row, col)
+        board.grid[row][col] = self
+        update_position(row, col)
+      else
+        in_row, in_col = position
+        puts 'Position taken by your piece'
+        board.grid[in_row][in_col] = self
+        false
+      end
     else
       puts 'Out of bounds'
       false
     end
+=end
   end
 
   private
@@ -26,14 +39,7 @@ class ChessPiece
   end
 
   def check_opposition(board, row, col)
-    if board.grid[row][col] == '-' || board.grid[row][col].color != color
-      take_out(board, row, col)
-      board.grid[row][col] = self
-      update_position(row, col)
-    else
-      puts 'Position occupied by your piece'
-      false
-    end
+    board.grid[row][col] == '-' || board.grid[row][col].color != color ? true : false
   end
 
   def obstructed?(board, in_row, in_col, row, col, delta_x, delta_y)
