@@ -5,9 +5,8 @@ require_relative 'lib/pieces/king'
 require_relative 'lib/pieces/bishop'
 
 board = Board.new
-board.layout
 king = King.new('white')
-bishop = Bishop.new('white')
-bishop.move(board, 5, 5)
+# bishop = Bishop.new('white')
+# bishop.move(board, 5, 5)
 king.move(board, 5, 5)
 board.layout

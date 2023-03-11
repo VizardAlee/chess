@@ -18,15 +18,6 @@ class ChessPiece
     @position = [row, col]
   end
 
-  def move(board, row, col)
-    if board.in_bound?(row, col)
-      check_opposition(board, row, col)
-    else
-      puts 'Out of bounds'
-      false
-    end
-  end
-
   private
 
   def update_position(row, col)

@@ -9,6 +9,15 @@ class King < ChessPiece
     [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]]
   end
 
+  def move(board, row, col)
+    if board.in_bound?(row, col)
+      check_opposition(board, row, col)
+    else
+      puts 'Out of bounds'
+      false
+    end
+  end
+
   def to_s
     case @color
     when 'white'
