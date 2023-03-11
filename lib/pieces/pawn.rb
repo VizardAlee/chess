@@ -36,7 +36,7 @@ class Pawn < ChessPiece
       delta_y = (col1 - col2).abs
 
       if delta_x <= 2 && delta_y.zero?
-        if delta_x == 2 && position[0] == 1 || position[0] == 6
+        if delta_x == 2 && position[0] == 1 || delta_x == 2 && position[0] == 6
           if board.grid[row1 - 1][col1] == '-' && board.grid[row2][col2] == '-' # when it's the first move
             board.grid[row1][col1] = '-'
             board.grid[row2][col2] = self

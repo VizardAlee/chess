@@ -164,6 +164,7 @@ class Game
       false
     end
     black_prisoner << @board.grid[row][col] if player2.pieces.team.any? { |val| val == @board.grid[row][col] }
+    puts black_prisoner
   end
 
   def black_move(piece, spot)
@@ -206,6 +207,8 @@ class Game
       puts "#{piece} is not a valid charcter"
       false
     end
+    white_prisoner << @board.grid[row][col] if player1.pieces.team.any? { |val| val == @board.grid[row][col] }
+    puts white_prisoner
   end
 
   def white_out(row, col)

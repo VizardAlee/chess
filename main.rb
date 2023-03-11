@@ -11,7 +11,8 @@ game.show
 game.white_move('knight1', [5, 2])
 game.white_move('knight1', [4, 0])
 game.player2.pieces.pawn1.taken_out(game.board)
-p game.player2.pieces.pawn1.position
-game.black_move('pawn1', [5, 0])
-p game.player2.pieces.pawn1.position
+#game.black_move('pawn2', [2, 1])
+game.black_move('pawn2', [3, 1])
+game.white_move('pawn2', [4, 1])
+p game.player2.pieces.pawn2.position
 game.show
