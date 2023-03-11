@@ -9,8 +9,10 @@ class Queen < ChessPiece
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
     if (delta_x - delta_y).abs.zero? || delta_x.zero? && delta_y >= 1 || delta_x >= 1 && delta_y.zero?
-      move(board, row, col)
-      board.grid[in_row][in_col] = '-'
+      unless obstructed?(board, in_row, in_col, row, col, delta_x, delta_y)
+        move(board, row, col)
+        board.grid[in_row][in_col] = '-'
+      end
     else
       puts 'Invalid move'
     end

@@ -34,4 +34,17 @@ class ChessPiece
       false
     end
   end
+
+  def obstructed?(board, in_row, in_col, row, col, delta_x, delta_y)
+    direction_x = delta_x.positive? ? (row - in_row) / delta_x : 0
+    direction_y = delta_y.positive? ? (col - in_col) / delta_y : 0
+    (1..[delta_x, delta_y].max - 1).each do |i|
+      pos_x = in_row + i * direction_x
+      pos_y = in_col + i * direction_y
+      if board.grid[pos_x][pos_y] != '-'
+        puts "Obstruction detected at [#{pos_x}, #{pos_y}]"
+        return true
+      end
+    end
+  end
 end
