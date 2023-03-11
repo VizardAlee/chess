@@ -5,31 +5,41 @@ class ChessPiece
   attr_accessor :position
   attr_reader :color
 
-  def initialize(color)
+  # common characteristics chess pieces have include:
+  # checking if path is obstructed
+  # moving piece from one point to the other
+  # updating piece position
+  # color attribute
+  # being able to take out oposition piece
+  # can be taken out by oposition piece
+
+  def initialize(color, row = nil, col = nil)
     @color = color
+    @position = [row, col]
   end
+
+  def move(board, row, col)
+    if board.in_bound?(row, col)
+      check_opposition(board, row, col)
+    else
+      puts 'Out of bounds'
+      false
+    end
+  end
+
+  private
 
   def update_position(row, col)
-    unless row.is_a?(Integer) && col.is_a?(Integer)
-      raise ArgumentError, 'Position must be specified as [row, col] where both are integers'
-    end
-
-    @position = row, col
+    @position = [row, col]
   end
 
-  def obstructed?(board, row1, col1, row2, col2)
-    x_dir = col2 <=> col1
-    y_dir = row2 <=> row1
-
-    row = row1 + y_dir
-    col = col1 + x_dir
-
-    while [row, col] != [row2, col2]
-      return true if board.grid[row][col] != '-'
-
-      row += y_dir
-      col += x_dir
+  def check_opposition(board, row, col)
+    if board.grid[row][col] == '-' || board.grid[row][col].color != color
+      board.grid[row][col] = self
+      update_position(row, col)
+    else
+      puts 'Position occupied by your piece'
+      false
     end
-    false
   end
 end

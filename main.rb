@@ -1,12 +1,13 @@
 # frozen_string_literal: false
 
-require_relative 'lib/game'
+require_relative 'lib/board'
+require_relative 'lib/pieces/king'
+require_relative 'lib/pieces/bishop'
 
-game = Game.new
-game.create_player
-game.white_move('pawn1', [5, 0])
-game.black_move('pawn1', [2, 0])
-game.show
-game.white_move('knight1', [5, 2])
-game.black_move('knight1', [2, 2])
-game.show
+board = Board.new
+board.layout
+king = King.new('white')
+bishop = Bishop.new('white')
+bishop.move(board, 5, 5)
+king.move(board, 5, 5)
+board.layout
