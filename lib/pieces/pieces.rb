@@ -5,17 +5,18 @@ class ChessPiece
   attr_accessor :position
   attr_reader :color
 
-  # common characteristics chess pieces have include:
-  # checking if path is obstructed
-  # moving piece from one point to the other
-  # updating piece position
-  # color attribute
-  # being able to take out oposition piece
-  # can be taken out by oposition piece
-
   def initialize(color, row = nil, col = nil)
     @color = color
     @position = [row, col]
+  end
+
+  def move(board, row, col)
+    if board.in_bound?(row, col)
+      check_opposition(board, row, col)
+    else
+      puts 'Out of bounds'
+      false
+    end
   end
 
   private

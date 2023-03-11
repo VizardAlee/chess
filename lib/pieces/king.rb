@@ -4,17 +4,15 @@ require_relative 'pieces'
 
 # king class
 class King < ChessPiece
-  def possible_moves
-    # king moves one square in any direction
-    [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]]
-  end
-
-  def move(board, row, col)
-    if board.in_bound?(row, col)
-      check_opposition(board, row, col)
+  def move_piece(board, row, col)
+    in_row, in_col = @position
+    delta_x = (in_row - row).abs
+    delta_y = (in_col - col).abs
+    if delta_x == 1 && delta_y == 1 || delta_x.zero? && delta_y == 1 || delta_x == 1 && delta_y.zero?
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
     else
-      puts 'Out of bounds'
-      false
+      puts 'Invalid move'
     end
   end
 
