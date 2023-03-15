@@ -13,23 +13,6 @@ class ChessPiece
   def move(board, row, col)
     board.grid[row][col] = self
     update_position(row, col)
-=begin
-    if board.in_bound?(row, col)
-      if check_opposition(board, row, col) == true
-        take_out(board, row, col)
-        board.grid[row][col] = self
-        update_position(row, col)
-      else
-        in_row, in_col = position
-        puts 'Position taken by your piece'
-        board.grid[in_row][in_col] = self
-        false
-      end
-    else
-      puts 'Out of bounds'
-      false
-    end
-=end
   end
 
   private

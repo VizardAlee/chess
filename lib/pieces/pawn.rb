@@ -4,11 +4,8 @@ require_relative 'pieces'
 
 # pawn class
 class Pawn < ChessPiece
-  def possible_moves
-    # pawn moves one square farward
-    # cannot reverse or move sideways
-    # can only take opponnent pieces in diagonal positions one step ahead of it
-    # first move can grant it two steps forward, if there are no obstructions
+  def move_piece(board, row, col)
+    
   end
 
   def to_s

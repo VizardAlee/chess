@@ -4,9 +4,33 @@ require_relative 'pieces'
 
 # knight class
 class Knight < ChessPiece
-  def possible_moves
-    # knight moves in L shapes
-    [[-2, -1], [-2, 1], [1, 2], [-1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
+  def move_piece(board, row, col)
+    in_row, in_col = @position
+    delta_x = (in_row - row).abs
+    delta_y = (in_col - col).abs
+
+    if board.in_bound?(row, col)
+      if check_opposition(board, row, col) == true
+        move_condition(board, row, col, delta_x, delta_y)
+      else
+        puts 'That is you comrade'
+        false
+      end
+    else
+      puts 'Out of bounds'
+      false
+    end
+  end
+
+  def move_condition(board, row, col, delta_x, delta_y)
+    in_row, in_col = position
+    if (delta_x == 2 && delta_y == 1) || (delta_x == 1 && delta_y == 2)
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+    else
+      puts 'Invalid move'
+      false
+    end
   end
 
   def to_s
