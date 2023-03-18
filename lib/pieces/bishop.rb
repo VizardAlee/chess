@@ -12,6 +12,7 @@ class Bishop < ChessPiece
     if board.in_bound?(row, col)
       if check_opposition(board, row, col) == true
         move_condition(board, row, col, delta_x, delta_y)
+        true
       else
         puts "#{board.grid[row][col].color} #{board.grid[row][col].class} is your piece"
         false

@@ -10,4 +10,5 @@ require_relative 'lib/pieces/rook'
 require_relative 'lib/prep'
 require_relative 'lib/game'
 
-Game.new
+game = Game.new
+game.turn
