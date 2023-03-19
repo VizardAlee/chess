@@ -15,11 +15,11 @@ class Bishop < ChessPiece
         true
       else
         puts "#{board.grid[row][col].color} #{board.grid[row][col].class} is your piece"
-        false
+        return false
       end
     else
       puts 'Out of bounds'
-      false
+      return false
     end
   end
 
@@ -30,7 +30,7 @@ class Bishop < ChessPiece
       board.grid[in_row][in_col] = '-'
     else
       puts 'Invalid move'
-      false
+      return false
     end
   end
 

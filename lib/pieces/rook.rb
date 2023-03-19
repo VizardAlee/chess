@@ -15,11 +15,11 @@ class Rook < ChessPiece
         true
       else
         puts 'That is you comrade'
-        false
+        return false
       end
     else
       puts 'Out of bounds'
-      false
+      return false
     end
   end
 
@@ -30,7 +30,7 @@ class Rook < ChessPiece
       board.grid[in_row][in_col] = '-'
     else
       puts 'Invalid move'
-      false
+      return false
     end
   end
 

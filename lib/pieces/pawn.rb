@@ -15,11 +15,11 @@ class Pawn < ChessPiece
         true
       else
         puts 'That is you comrade'
-        false
+        return false
       end
     else
       puts 'Out of bounds'
-      false
+      return false
     end
   end
 
@@ -40,7 +40,7 @@ class Pawn < ChessPiece
         board.grid[in_row][in_col] = '-'
       else
         puts 'Invalid move'
-        false
+        return false
       end
     end
   end
@@ -49,7 +49,7 @@ class Pawn < ChessPiece
     if ((delta_x - delta_y).zero? && board.grid[row][col] != color) || ((delta_x - delta_y).abs.zero? && board.grid[row][col] != '-')
       true
     else
-      false
+      return false
     end
   end
 
