@@ -11,6 +11,7 @@ class Pawn < ChessPiece
 
     if board.in_bound?(row, col)
       if check_opposition(board, row, col) == true
+        promotion(board, row, col, in_row, in_col)
         move_condition(board, row, col, delta_x, delta_y)
         true
       else
@@ -50,6 +51,29 @@ class Pawn < ChessPiece
       true
     else
       return false
+    end
+  end
+
+  def promotion(board, row, col, in_row, in_col)
+    if (row.zero? && color == 'white') || (row == 7 && color == 'black')
+      puts "You have reached the opposition's HQ, choose among the generals (q,r,b,kn)"
+      piece = gets.chomp.downcase
+      case piece
+      when 'q'
+        new_piece = Queen.new(color)
+      when 'r'
+        new_piece = Rook.new(color)
+      when 'b'
+        new_piece = Bishop.new(color)
+      when 'kn'
+        new_piece = Knight.new(color)
+      else
+        puts 'Please Put in the valid key!'
+        false
+      end
+
+      board.grid[row][col] = new_piece
+      board.grid[in_row][in_col] = new_piece
     end
   end
 
