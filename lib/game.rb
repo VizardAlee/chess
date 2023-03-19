@@ -38,117 +38,115 @@ class Game
   end
 
   def white_player_move(piece, row, col)
-    case piece
-    when 'k'
-      whites.king.move_piece(board, row, col)
-    when 'q'
-      whites.queen.move_piece(board, row, col)
-    when 'r1'
-      whites.rook1.move_piece(board, row, col)
-    when 'r2'
-      whites.rook2.move_piece(board, row, col)
-    when 'b1'
-      whites.bishop1.move_piece(board, row, col)
-    when 'b2'
-      whites.bishop2.move_piece(board, row, col)
-    when 'kn1'
-      whites.knight1.move_piece(board, row, col)
-    when 'kn2'
-      whites.knight2.move_piece(board, row, col)
-    when 'p1'
-      whites.pawn1.move_piece(board, row, col)
-    when 'p2'
-      whites.pawn2.move_piece(board, row, col)
-    when 'p3'
-      whites.pawn3.move_piece(board, row, col)
-    when 'p4'
-      whites.pawn4.move_piece(board, row, col)
-    when 'p5'
-      whites.pawn5.move_piece(board, row, col)
-    when 'p6'
-      whites.pawn6.move_piece(board, row, col)
-    when 'p7'
-      whites.pawn7.move_piece(board, row, col)
-    when 'p8'
-      whites.pawn8.move_piece(board, row, col)
+    pieces = {
+      'k' => whites.king,
+      'q' => whites.queen,
+      'r1' => whites.rook1,
+      'r2' => whites.rook2,
+      'b1' => whites.bishop1,
+      'b2' => whites.bishop2,
+      'kn1' => whites.knight1,
+      'kn2' => whites.knight2,
+      'p1' => whites.pawn1,
+      'p2' => whites.pawn2,
+      'p3' => whites.pawn3,
+      'p4' => whites.pawn4,
+      'p5' => whites.pawn5,
+      'p6' => whites.pawn6,
+      'p7' => whites.pawn7,
+      'p8' => whites.pawn8
+    }
+
+    piece_obj = pieces[piece]
+    if piece_obj.nil?
+      puts 'Invalid move'
+      board.layout
+      false
+    elsif piece_obj.check_opposition(board, row, col) == false
+      puts "It's your man down there"
+      board.layout
+      false
     else
-      puts 'Invalid  input'
-      return false
+      piece_obj.move_piece(board, row, col)
+      @moved = true
+      return true
     end
-    @moved = true
   end
 
   def black_player_move(piece, row, col)
-    case piece
-    when 'k'
-      blacks.king.move_piece(board, row, col)
-    when 'q'
-      blacks.queen.move_piece(board, row, col)
-    when 'r1'
-      blacks.rook1.move_piece(board, row, col)
-    when 'r2'
-      blacks.rook2.move_piece(board, row, col)
-    when 'b1'
-      blacks.bishop1.move_piece(board, row, col)
-    when 'b2'
-      blacks.bishop2.move_piece(board, row, col)
-    when 'kn1'
-      blacks.knight1.move_piece(board, row, col)
-    when 'kn2'
-      blacks.knight2.move_piece(board, row, col)
-    when 'p1'
-      blacks.pawn1.move_piece(board, row, col)
-    when 'p2'
-      blacks.pawn2.move_piece(board, row, col)
-    when 'p3'
-      blacks.pawn3.move_piece(board, row, col)
-    when 'p4'
-      blacks.pawn4.move_piece(board, row, col)
-    when 'p5'
-      blacks.pawn5.move_piece(board, row, col)
-    when 'p6'
-      blacks.pawn6.move_piece(board, row, col)
-    when 'p7'
-      blacks.pawn7.move_piece(board, row, col)
-    when 'p8'
-      blacks.pawn8.move_piece(board, row, col)
-    else
-      puts 'Invalid  input'
-      return false
-    end
+    pieces = {
+      'k' => blacks.king,
+      'q' => blacks.queen,
+      'r1' => blacks.rook1,
+      'r2' => blacks.rook2,
+      'b1' => blacks.bishop1,
+      'b2' => blacks.bishop2,
+      'kn1' => blacks.knight1,
+      'kn2' => blacks.knight2,
+      'p1' => blacks.pawn1,
+      'p2' => blacks.pawn2,
+      'p3' => blacks.pawn3,
+      'p4' => blacks.pawn4,
+      'p5' => blacks.pawn5,
+      'p6' => blacks.pawn6,
+      'p7' => blacks.pawn7,
+      'p8' => blacks.pawn8
+    }
 
-    @moved = false
+    piece_obj = pieces[piece]
+    if piece_obj.nil?
+      puts 'Invalid move'
+      board.layout
+      false
+    elsif piece_obj.check_opposition(board, row, col) == false
+      puts "It's your man down there"
+      board.layout
+      false
+    else
+      piece_obj.move_piece(board, row, col)
+      @moved = false
+      return true
+    end
   end
 
   def turn
     until whites.king.position == [nil, nil] || blacks.king.position == [nil, nil]
       case @moved
       when false
-        puts 'make a move p1'
-        storage = []
-        puts 'choose piece'
-        storage << gets.chomp
-        puts 'choose row'
-        storage << gets.chomp.to_i
-        puts 'choose column'
-        storage << gets.chomp.to_i
-        white_player_move(storage.shift, storage.shift, storage.shift)
-        board.layout
+        puts "make a move #{player1.name}"
+        loop do
+          storage = []
+          puts 'choose piece'
+          storage << gets.chomp
+          puts 'choose row'
+          storage << gets.chomp.to_i
+          puts 'choose column'
+          storage << gets.chomp.to_i
+          if white_player_move(storage.shift, storage.shift, storage.shift)
+            board.layout
+            break
+          else
+            puts 'Invalid move. Please try again.'
+          end
+        end
       when true
-        puts 'make a move p1'
-        storage = []
-        puts 'choose piece'
-        storage << gets.chomp
-        puts 'choose row'
-        storage << gets.chomp.to_i
-        puts 'choose column'
-        storage << gets.chomp.to_i
-        black_player_move(storage.shift, storage.shift, storage.shift)
-        board.layout
+        puts "make a move #{player2.name}"
+        loop do
+          storage = []
+          puts 'choose piece'
+          storage << gets.chomp
+          puts 'choose row'
+          storage << gets.chomp.to_i
+          puts 'choose column'
+          storage << gets.chomp.to_i
+          if black_player_move(storage.shift, storage.shift, storage.shift)
+            board.layout
+            break
+          else
+            puts 'Invalid move. Please try again.'
+          end
+        end
       end
     end
-
-    white_player_move(storage.shift, storage.shift, storage.shift)
-    board.layout
   end
 end

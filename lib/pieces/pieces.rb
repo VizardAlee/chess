@@ -15,14 +15,14 @@ class ChessPiece
     update_position(row, col)
   end
 
+  def check_opposition(board, row, col)
+    board.grid[row][col] == '-' || board.grid[row][col].color != color ? true : false
+  end
+
   private
 
   def update_position(row, col)
     @position = [row, col]
-  end
-
-  def check_opposition(board, row, col)
-    board.grid[row][col] == '-' || board.grid[row][col].color != color ? true : false
   end
 
   def obstructed?(board, in_row, in_col, row, col, delta_x, delta_y)
@@ -36,7 +36,7 @@ class ChessPiece
         return true
       end
     end
-    false
+    return false
   end
 
   def take_out(board, row, col)
