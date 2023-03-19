@@ -47,8 +47,8 @@ class Prep
   end
 
   def make_knights
-    @knight2 = Knight.new(color)
     @knight1 = Knight.new(color)
+    @knight2 = Knight.new(color)
   end
 
   def make_pawns
