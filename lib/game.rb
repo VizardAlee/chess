@@ -63,6 +63,7 @@ class Game
       board.layout
       false
     elsif piece_obj.moveable?(board, row, col) == false
+      board.layout
       false
     else
       piece_obj.move_piece(board, row, col)
@@ -96,14 +97,13 @@ class Game
       puts 'Invalid move'
       board.layout
       false
-    elsif piece_obj.check_opposition(board, row, col) == false
-      puts "It's your man down there"
+    elsif piece_obj.moveable?(board, row, col) == false
       board.layout
       false
     else
       piece_obj.move_piece(board, row, col)
       @moved = false
-      return true
+      true
     end
   end
 
