@@ -29,6 +29,18 @@ class ChessPiece
     update_position(row, col)
   end
 
+  def pawn_attack(board, row, col)
+    in_row, in_col = @position
+    delta_y = (in_col - col).abs
+
+    if delta_y == 1 && board.grid[row][col] != color || board.grid[row][col] != '-'
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+      return true
+    end
+    false
+  end
+
   def check_opposition(board, row, col)
     board.grid[row][col] == '-' || board.grid[row][col].color != color ? true : false
   end

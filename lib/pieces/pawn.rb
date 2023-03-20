@@ -4,77 +4,74 @@ require_relative 'pieces'
 
 # pawn class
 class Pawn < ChessPiece
+  def moveable?(board, row, col)
+    # shouldn't pass the turn to other player when move is invalid
+    unless board.in_bound?(row, col)
+      puts 'Out of bounds!'
+      return false
+    end
+    unless check_opposition(board, row, col) == true
+      puts 'That is you comrade!'
+      return false
+    end
+    true
+  end
+
   def move_piece(board, row, col)
-    in_row, in_col = @position
+    in_row, in_col = position
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
 
-    if board.in_bound?(row, col)
-      if check_opposition(board, row, col) == true
-        promotion(board, row, col, in_row, in_col)
-        move_condition(board, row, col, delta_x, delta_y)
-        true
-      else
-        puts 'That is you comrade'
-        return false
-      end
-    else
-      puts 'Out of bounds'
-      return false
-    end
-  end
+    return true if attack(board, row, col) == true
 
-  def move_condition(board, row, col, delta_x, delta_y)
-    in_row, in_col = position
-
-    if takeable?(board, delta_x, delta_y, row, col)
-      move(board, row, col)
-      board.grid[in_row][in_col] = '-'
-    elsif in_row == 1 && color == 'black' || in_row == 6 && color == 'white'
-      if (delta_x == 1 && delta_y.zero?) || (delta_x == 2 && delta_y.zero?)
+    if in_row == 1 && color == 'black' || in_row == 6 && color == 'white'
+      if (delta_x == 1 && delta_y.zero?) || (delta_x == 2 && delta_y.zero?) # first move can be two steps
         move(board, row, col)
         board.grid[in_row][in_col] = '-'
+      else
+        puts 'Invalid move'
+        false
       end
-    elsif delta_x == 1
+    elsif delta_x == 1 && delta_y.zero? # subsequent moves
       if board.grid[row][col] == '-'
         move(board, row, col)
         board.grid[in_row][in_col] = '-'
       else
         puts 'Invalid move'
-        return false
-      end
-    end
-  end
-
-  def takeable?(board, delta_x, delta_y, row, col)
-    if ((delta_x - delta_y).zero? && board.grid[row][col] != color) || ((delta_x - delta_y).abs.zero? && board.grid[row][col] != '-')
-      true
-    else
-      return false
-    end
-  end
-
-  def promotion(board, row, col, in_row, in_col)
-    if (row.zero? && color == 'white') || (row == 7 && color == 'black')
-      puts "You have reached the opposition's HQ, choose among the generals (q,r,b,kn)"
-      piece = gets.chomp.downcase
-      case piece
-      when 'q'
-        new_piece = Queen.new(color)
-      when 'r'
-        new_piece = Rook.new(color)
-      when 'b'
-        new_piece = Bishop.new(color)
-      when 'kn'
-        new_piece = Knight.new(color)
-      else
-        puts 'Please Put in the valid key!'
         false
       end
-
-      board.grid[row][col] = new_piece
-      board.grid[in_row][in_col] = new_piece
     end
+  end
+
+  def attack(board, row, col)
+    in_row, in_col = @position
+    if top_left_right(board, row, col) == true && color == 'white'
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+      true
+    elsif bottom_left_right(board, row, col) == true && color == 'black'
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+      true
+    else
+      false
+    end
+  end
+
+  def top_left_right(board, row, col)
+    in_row, in_col = @position
+    return true if board.grid[in_row + 1][in_col - 1] != color && board.grid[in_row - 1][in_col + 1] != '-' && board.grid[row][col] != color # top left
+    return true if board.grid[in_row + 1][in_col + 1] != color && board.grid[in_row - 1][in_col + 1] != '-' && board.grid[row][col] != color # top right
+
+    false
+  end
+
+  def bottom_left_right(board, row, col)
+    in_row, in_col = @position
+    return true if board.grid[in_row - 1][in_col - 1] != color && board.grid[in_row - 1][in_col + 1] != '-' && board.grid[row][col] != color # bottom left
+    return true if board.grid[in_row - 1][in_col + 1] != color && board.grid[in_row - 1][in_col + 1] != '-' && board.grid[row][col] != color # bottom right
+
+    false
   end
 
   def to_s
