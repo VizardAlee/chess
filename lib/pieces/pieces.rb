@@ -2,12 +2,13 @@
 
 # piece class
 class ChessPiece
-  attr_accessor :position
+  attr_accessor :position, :visited
   attr_reader :color
 
   def initialize(color, row = nil, col = nil)
     @color = color
     @position = [row, col]
+    @visited = []
   end
 
   def moveable?(board, row, col)
