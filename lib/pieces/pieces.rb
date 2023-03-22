@@ -46,11 +46,11 @@ class ChessPiece
     board.grid[row][col] == '-' || board.grid[row][col].color != color ? true : false
   end
 
-  private
-
   def update_position(row, col)
     @position = [row, col]
   end
+
+  private
 
   def obstructed?(board, row, col)
     in_row, in_col = @position

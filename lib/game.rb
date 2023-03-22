@@ -107,6 +107,13 @@ class Game
     end
   end
 
+  def white_transforming(piece)
+    puts 'show below'
+    p new_piece = whites.make_trans(piece)
+    puts "this is indeed #{new_piece}"
+    p whites.white_position(new_piece, board)
+  end
+
   def turn
     until whites.king.position == [nil, nil] || blacks.king.position == [nil, nil]
       case @moved
@@ -121,6 +128,14 @@ class Game
           puts 'choose column'
           storage << gets.chomp.to_i
           if white_player_move(storage.shift, storage.shift, storage.shift)
+            whites.pawn_group.each do |pawn|
+              if pawn.change == true
+                white_transforming(pawn.new_piece)
+                pawn.change = false
+              else
+                false
+              end
+            end
             board.layout
             break
           else

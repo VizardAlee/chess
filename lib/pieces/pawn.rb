@@ -1,14 +1,24 @@
 # frozen_string_literal: false
 
 require_relative 'pieces'
+require_relative 'queen'
+require_relative 'rook'
+require_relative 'bishop'
+require_relative 'knight'
 
 # pawn class
 class Pawn < ChessPiece
+  attr_accessor :new_piece, :change
+
   def moveable?(board, row, col)
     return false unless obstructed?(board, row, col) == false
 
     unless attackable?(board, row, col) == true
-      puts "You can't take this piece bro"
+      if board.grid[row][col] == '-'
+        puts "You can't move diagonally here bro"
+      else
+        puts "You can't take this piece bro"
+      end
       return false
     end
 
@@ -34,13 +44,26 @@ class Pawn < ChessPiece
     delta_y = (in_col - col).abs
 
     return one_or_two_steps(board, row, col) if first_move? == true # first steps
-    return attack(board, row, col) if attackable?(board, row, col) == true # for attack
+    # return attack(board, row, col) if attackable?(board, row, col) == true # for attack
 
-    return false unless board.grid[row][col] == '-' && delta_x == 1
+    # return false unless board.grid[row][col] == '-' && delta_x == 1
+    if board.grid[row][col] == '-' && delta_x == 1
+      @visited << in_row
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+      true
+    elsif attackable?(board, row, col) == true
+      @visited << in_row
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+      true
+    end
 
-    @visited << in_row
-    move(board, row, col)
-    board.grid[in_row][in_col] = '-'
+    return false unless opposite_end?(row) == true
+
+    puts "Choose a character! 'q', 'r', 'b', 'kn'"
+    transform(gets.chomp.downcase)
+    @change = true
   end
 
   def attack(board, row, col)
@@ -52,10 +75,9 @@ class Pawn < ChessPiece
       @visited << in_row
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
-    else
-      puts 'it is false'
-      false
     end
+    puts 'it is false'
+    false
   end
 
   def first_move?
@@ -130,8 +152,8 @@ class Pawn < ChessPiece
   def diagonal?(col)
     in_col = @position.last
 
-    delta_x = (in_col - col).abs
-    return true if delta_x != 0
+    delta_y = (in_col - col).abs
+    return true if delta_y != 0
 
     false
   end
@@ -142,6 +164,19 @@ class Pawn < ChessPiece
     end
 
     false
+  end
+
+  def opposite_end?(row)
+    if color == 'black' && row == 7 || color == 'white' && row.zero?
+      @change = true
+      return true
+    end
+
+    false
+  end
+
+  def transform(piece)
+    @new_piece = piece
   end
 
   def to_s

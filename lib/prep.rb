@@ -14,9 +14,9 @@ require_relative 'pieces/pawn'
 
 # assembling all pieces
 class Prep
-  attr_reader :color
+  attr_reader :color, :pawn_group
   attr_accessor :king, :queen, :rook1, :rook2, :bishop1, :bishop2, :knight1, :knight2, :pawn1, :pawn2,
-                :pawn3, :pawn4, :pawn5, :pawn6, :pawn7, :pawn8
+                :pawn3, :pawn4, :pawn5, :pawn6, :pawn7, :pawn8, :the_new
 
   def initialize(color)
     @color = color
@@ -26,6 +26,8 @@ class Prep
     make_bishops
     make_knights
     make_pawns
+
+    @pawn_group = [@pawn1, @pawn2, @pawn3, @pawn4, @pawn5, @pawn6, @pawn7, @pawn8]
   end
 
   def make_king
@@ -104,6 +106,30 @@ class Prep
     @pawn6.move(board, 1, 5)
     @pawn7.move(board, 1, 6)
     @pawn8.move(board, 1, 7)
+  end
+
+  def make_trans(piece)
+    case piece
+    when 'q'
+      @the_new = Queen.new(color)
+    when 'r'
+      @the_new = Rook.new(color)
+    when 'b'
+      @the_new = Bishop.new(color)
+    when 'kn'
+      @the_new = Knight.new(color)
+    end
+
+    @the_new
+  end
+
+  def white_position(new_piece, board)
+    pawn_group.any? do |piece|
+      row = piece.position.first
+      col = piece.position.last
+      new_piece.update_position(row, col)
+      board.grid[row][col] = new_piece
+    end
   end
 
   def parameters(board, color)
