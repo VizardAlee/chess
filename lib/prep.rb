@@ -14,9 +14,9 @@ require_relative 'pieces/pawn'
 
 # assembling all pieces
 class Prep
-  attr_reader :color, :pawn_group
+  attr_reader :color
   attr_accessor :king, :queen, :rook1, :rook2, :bishop1, :bishop2, :knight1, :knight2, :pawn1, :pawn2,
-                :pawn3, :pawn4, :pawn5, :pawn6, :pawn7, :pawn8, :the_new
+                :pawn3, :pawn4, :pawn5, :pawn6, :pawn7, :pawn8, :the_new, :pawn_group
 
   def initialize(color)
     @color = color
@@ -123,12 +123,36 @@ class Prep
     @the_new
   end
 
-  def white_position(new_piece, board)
+  def positioning(new_piece, board)
     pawn_group.any? do |piece|
       row = piece.position.first
       col = piece.position.last
-      new_piece.update_position(row, col)
-      board.grid[row][col] = new_piece
+      case piece
+      when @pawn1
+        @pawn1 = new_piece
+        @pawn1.move(board, row, col)
+      when @pawn2
+        @pawn2 = new_piece
+        @pawn2.move(board, row, col)
+      when @pawn3
+        @pawn3 = new_piece
+        @pawn3.move(board, row, col)
+      when @pawn4
+        @pawn4 = new_piece
+        @pawn4.move(board, row, col)
+      when @pawn5
+        @pawn5 = new_piece
+        @pawn5.move(board, row, col)
+      when @pawn6
+        @pawn6 = new_piece
+        @pawn6.move(board, row, col)
+      when @pawn7
+        @pawn7 = new_piece
+        @pawn7.move(board, row, col)
+      when @pawn8
+        @pawn8 = new_piece
+        @pawn8.move(board, row, col)
+      end
     end
   end
 
