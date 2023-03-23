@@ -12,8 +12,6 @@ class ChessPiece
   end
 
   def moveable?(board, row, col)
-    return false unless obstructed?(board, row, col) == false
-
     unless board.in_bound?(row, col)
       puts 'Out of bounds!'
       return false

@@ -5,14 +5,15 @@ require_relative 'pieces'
 # knight class
 class Knight < ChessPiece
   def moveable?(board, row, col)
-    unless board.in_bound?(row, col)
-      puts 'Out of bounds!'
+    super
+    in_row, in_col = position
+    delta_x = (in_row - row).abs
+    delta_y = (in_col - col).abs
+    unless (delta_x == 2 && delta_y == 1) || (delta_x == 1 && delta_y == 2)
+      puts 'wrong move bro'
       return false
     end
-    unless check_opposition(board, row, col) == true
-      puts 'That is you comrade!'
-      return false
-    end
+
     true
   end
 

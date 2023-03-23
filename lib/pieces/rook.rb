@@ -4,6 +4,20 @@ require_relative 'pieces'
 
 # rook class
 class Rook < ChessPiece
+  def moveable?(board, row, col)
+    super
+    in_row, in_col = position
+    delta_x = (in_row - row).abs
+    delta_y = (in_col - col).abs
+    return false unless obstructed?(board, row, col) == false
+
+    unless (delta_x.zero? && delta_y >= 1) || (delta_x >= 1 && delta_y.zero?)
+      puts 'wrong move bro!'
+      return false
+    end
+    true
+  end
+
   def move_piece(board, row, col)
     in_row, in_col = position
     delta_x = (in_row - row).abs
