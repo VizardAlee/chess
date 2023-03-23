@@ -14,7 +14,7 @@ class King < ChessPiece
     unless (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
       if castling(board, row, col) == true
         true
-      else
+      elsif
         puts 'wrong move bro!'
         return false
       end
@@ -33,6 +33,7 @@ class King < ChessPiece
     if (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
+      @cannot_castle = true
     else
       puts 'Invalid move'
       false
@@ -40,15 +41,19 @@ class King < ChessPiece
   end
 
   def castling(board, row, col)
+    return false if cannot_castle == true
+
     case color
     when 'white'
       if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 6) || (row == 7 && col == 2)
         @castle = true
+        @cannot_castle = true
         return true
       end
     when 'black'
       if obstructed?(board, row, col) == false && position == [0, 4] && (row == 0 && col == 6) || (row == 0 && col == 2)
         @castle = true
+        @cannot_castle = true
         return true
       end
     end

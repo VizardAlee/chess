@@ -159,7 +159,8 @@ class Prep
   end
 
   def castle_check
-    return false unless king.castle = true
+    return false unless king.castle == true
+    return false if rook1.cannot_castle == true || rook2.cannot_castle == true
 
     case king.color
     when 'white'
