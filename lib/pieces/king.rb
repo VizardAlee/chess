@@ -9,10 +9,16 @@ class King < ChessPiece
     in_row, in_col = position
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
+    return false unless obstructed?(board, row, col) == false
 
     unless (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
-      puts 'wrong move bro!'
-      return false
+      if castling(board, row, col) == true
+        true
+      else
+        puts 'wrong move bro!'
+        return false
+      end
+      true
     end
     true
   end
@@ -22,7 +28,38 @@ class King < ChessPiece
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
 
+    return castle_move(board, row, col) if castling(board, row, col) == true
+
     if (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
+      move(board, row, col)
+      board.grid[in_row][in_col] = '-'
+    else
+      puts 'Invalid move'
+      false
+    end
+  end
+
+  def castling(board, row, col)
+    case color
+    when 'white'
+      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 6) || (row == 7 && col == 2)
+        @castle = true
+        return true
+      end
+    when 'black'
+      if obstructed?(board, row, col) == false && position == [0, 4] && (row == 0 && col == 6) || (row == 0 && col == 2)
+        @castle = true
+        return true
+      end
+    end
+    false
+  end
+
+  def castle_move(board, row, col)
+    in_row, in_col = @position
+    delta_y = (in_col - col).abs
+
+    if board.grid[row][col] == '-' && delta_y == 2
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
     else

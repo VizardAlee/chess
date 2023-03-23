@@ -158,6 +158,57 @@ class Prep
     end
   end
 
+  def castle_check
+    return false unless king.castle = true
+
+    case king.color
+    when 'white'
+      case king.position
+      when [7, 6]
+        rook2.castle = true
+      when [7, 2]
+        rook1.castle = true
+      end
+      return true
+    when 'black'
+      case king.position
+      when [0, 6]
+        rook2.castle = true
+      when [0, 2]
+        rook1.castle = true
+      end
+      return true
+    end
+    false
+  end
+
+  def move_rook(board)
+    case king.color
+    when 'white'
+      case king.position
+      when [7, 6]
+        rook2.position = [7, 5]
+        board.grid[7][5] = rook2
+        board.grid[7][7] = '-'
+      when [7, 2]
+        rook1.position = [7, 3]
+        board.grid[7][3] = rook2
+        board.grid[7][0] = '-'
+      end
+    when 'black'
+      case king.position
+      when [0, 6]
+        rook2.position = [0, 5]
+        board.grid[0][5] = rook2
+        board.grid[0][7] = '-'
+      when [0, 2]
+        rook1.position = [0, 3]
+        board.grid[0][3] = rook2
+        board.grid[0][0] = '-'
+      end
+    end
+  end
+
   def parameters(board, color)
     case color
     when 'white'

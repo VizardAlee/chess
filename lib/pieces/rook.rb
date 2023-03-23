@@ -32,6 +32,22 @@ class Rook < ChessPiece
     end
   end
 
+  def castling
+    case color
+    when 'white'
+      if position == [7, 0] || position == [7, 7]
+        @castle = true
+        return true
+      end
+    when 'black'
+      if position == [0, 0] || position == [0, 7]
+        @castle = true
+        return true
+      end
+    end
+    false
+  end
+
   def to_s
     case @color
     when 'white'
