@@ -127,6 +127,8 @@ class Prep
     pawn_group.any? do |piece|
       row = piece.position.first
       col = piece.position.last
+      return false unless piece.change == true
+
       case piece
       when @pawn1
         @pawn1 = new_piece

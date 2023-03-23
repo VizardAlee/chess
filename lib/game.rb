@@ -108,16 +108,12 @@ class Game
   end
 
   def white_transforming(piece)
-    puts 'show below'
     new_piece = whites.make_trans(piece)
-    puts "this is indeed #{new_piece}"
     whites.positioning(new_piece, board)
   end
 
   def black_transforming(piece)
-    puts 'show below'
     new_piece = blacks.make_trans(piece)
-    puts "this is indeed #{new_piece}"
     blacks.positioning(new_piece, board)
   end
 

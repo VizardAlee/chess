@@ -11,7 +11,31 @@ class Pawn < ChessPiece
   attr_accessor :new_piece, :change
 
   def moveable?(board, row, col)
+    super
+
     return false unless obstructed?(board, row, col) == false
+
+    unless first_move? == false
+      in_row = @position.first
+      delta_x = (in_row - row).abs
+      if delta_x > 2
+        puts 'Not so fast bro!'
+        return false
+      else
+        true
+      end
+    end
+
+    unless first_move? == true
+      in_row = @position.first
+      delta_x = (in_row - row).abs
+      if delta_x > 1
+        puts 'Only one step bro'
+        return false
+      else
+        true
+      end
+    end
 
     unless attackable?(board, row, col) == true
       if board.grid[row][col] == '-'
@@ -27,14 +51,6 @@ class Pawn < ChessPiece
       return false
     end
 
-    unless board.in_bound?(row, col)
-      puts 'Out of bounds!'
-      return false
-    end
-    unless check_opposition(board, row, col) == true
-      puts 'That is you comrade!'
-      return false
-    end
     true
   end
 
@@ -44,7 +60,6 @@ class Pawn < ChessPiece
     delta_y = (in_col - col).abs
 
     return one_or_two_steps(board, row, col) if first_move? == true # first steps
-    # return attack(board, row, col) if attackable?(board, row, col) == true # for attack
 
     # return false unless board.grid[row][col] == '-' && delta_x == 1
     if board.grid[row][col] == '-' && delta_x == 1
@@ -52,11 +67,13 @@ class Pawn < ChessPiece
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       true
-    elsif attackable?(board, row, col) == true
+    elsif attackable?(board, row, col) == true && delta_x == 1 && delta_y == 1
       @visited << in_row
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       true
+    else
+      puts 'is it here?'
     end
 
     return false unless opposite_end?(row) == true
@@ -66,18 +83,10 @@ class Pawn < ChessPiece
     @change = true
   end
 
-  def attack(board, row, col)
-    in_row, in_col = position
+  def beyond_one(row)
+    in_row = @position.first
     delta_x = (in_row - row).abs
-    delta_y = (in_col - col).abs
-
-    if delta_x == 1 && delta_y == 1 && attackable?(board, row, col) == true
-      @visited << in_row
-      move(board, row, col)
-      board.grid[in_row][in_col] = '-'
-    end
-    puts 'it is false'
-    false
+    return true if delta_x > 1
   end
 
   def first_move?
@@ -90,6 +99,7 @@ class Pawn < ChessPiece
     delta_x = (in_row - row).abs
 
     if first_move? == true && board.grid[row][col] == '-' && delta_x == 1 || delta_x == 2
+      @visited << in_row - 1 if delta_x == 2
       @visited << in_row
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
