@@ -72,6 +72,7 @@ class ChessPiece
     false
   end
 
+  # Need to work on this
   def take_out(board, row, col)
     board.grid[row][col].position = [nil, nil] if board.grid[row][col] != '-' && board.grid[row][col].color != color
   end
