@@ -210,6 +210,44 @@ class Prep
     end
   end
 
+  def en_passant_movement(board)
+    if pawn1.sepuku(board) == true
+      in_row, in_col = @pawn1.position
+      @pawn1.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif pawn2.sepuku(board) == true
+      in_row, in_col = @pawn2.position
+      @pawn2.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif pawn3.sepuku(board) == true
+      in_row, in_col = @pawn3.position
+      @pawn3.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif @pawn4.sepuku(board) == true
+      in_row, in_col = @pawn4.position
+      @pawn4.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif @pawn5.sepuku(board) == true
+      in_row, in_col = @pawn5.position
+      @pawn5.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif @pawn6.sepuku(board) == true
+      in_row, in_col = @pawn6.position
+      @pawn6.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif @pawn7.sepuku(board) == true
+      in_row, in_col = @pawn7.position
+      @pawn7.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    elsif @pawn8.sepuku(board) == true
+      in_row, in_col = @pawn8.position
+      @pawn8.position = [nil, nil]
+      board.grid[in_row][in_col] = '-'
+    else
+      false
+    end
+  end
+
   def parameters(board, color)
     case color
     when 'white'

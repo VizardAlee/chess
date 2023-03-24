@@ -66,6 +66,7 @@ class Pawn < ChessPiece
     delta_y = (in_col - col).abs
 
     return one_or_two_steps(board, row, col) if first_move? == true # first steps
+    return en_passant_takeout(board, row, col) if en_passant_scout(board, col) == true
 
     # return false unless board.grid[row][col] == '-' && delta_x == 1
     if board.grid[row][col] == '-' && delta_x == 1
@@ -105,6 +106,7 @@ class Pawn < ChessPiece
     delta_x = (in_row - row).abs
 
     if first_move? == true && board.grid[row][col] == '-' && delta_x == 1 || delta_x == 2
+      @en_passant = true if delta_x == 2
       @visited << in_row - 1 if delta_x == 2
       @visited << in_row
       move(board, row, col)
@@ -193,6 +195,58 @@ class Pawn < ChessPiece
 
   def transform(piece)
     @new_piece = piece
+  end
+
+  def en_passant_scout(board, col)
+    in_row = @position.first
+    case color
+    when 'white'
+      return true if in_row == 3 && board.grid[in_row][col].en_passant == true
+    when 'black'
+      return true if in_row == 4 && board.grid[in_row][col].en_passant == true
+    end
+    false
+  end
+
+  def en_passant_takeout(board, row, col)
+    in_row, in_col = @position
+
+    delta_x = (in_row - row).abs
+    delta_y = (in_col - col).abs
+
+    return false unless (delta_x == 1 && delta_y == 1) && board.grid[row][col] == '-'
+
+    move(board, row, col)
+    board.grid[in_row][in_col] = '-'
+    true
+  end
+
+  def sepuku(board)
+    in_row, in_col = @position
+    case color
+    when 'white'
+      if @en_passant == true
+        if board.grid[in_row - 1][in_col].is_a?(Pawn)
+          true
+        else
+          puts 'Something is wrong'
+          false
+        end
+      else
+        puts 'You cannot take him out'
+      end
+    when 'black'
+      if @en_passant == true
+        if board.grid[in_row + 1][in_col].is_a?(Pawn)
+          true
+        else
+          puts 'Something is wrong'
+          false
+        end
+      else
+        puts 'You cannot take him out'
+      end
+    end
   end
 
   def to_s
