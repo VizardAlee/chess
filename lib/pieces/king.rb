@@ -15,7 +15,7 @@ class King < ChessPiece
       if scout(board, row, col) == true
         true
       else
-        puts 'wrong move bro!'
+        puts 'Wrong move bro! Cannot Castle'
         return false
       end
       true
@@ -28,9 +28,7 @@ class King < ChessPiece
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
 
-    if short_castling(board, row, col) == true || long_castling(board, row, col) == true
-      return castle_move(board, row, col)
-    end
+    return castle_move(board, row, col) if scout(board, row, col) == true
 
     if (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
       move(board, row, col)
@@ -83,15 +81,13 @@ class King < ChessPiece
   def short_castling(board, row, col)
     case color
     when 'white'
-      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 6)
+      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 6) && @cannot_castle == false
         @castle = true
-        @cannot_castle = true
         return true
       end
     when 'black'
-      if obstructed?(board, row, col) == false && position == [0, 4] && (row.zero? && col == 6)
+      if obstructed?(board, row, col) == false && position == [0, 4] && (row.zero? && col == 6) && @cannot_castle == false
         @castle = true
-        @cannot_castle = true
         return true
       end
     end
@@ -101,15 +97,13 @@ class King < ChessPiece
   def long_castling(board, row, col)
     case color
     when 'white'
-      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 2)
+      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 2) && @cannot_castle == false
         @castle = true
-        @cannot_castle = true
         return true
       end
     when 'black'
-      if obstructed?(board, row, col) == false && position == [0, 4] && (row.zero? && col == 2)
+      if obstructed?(board, row, col) == false && position == [0, 4] && (row.zero? && col == 2) && @cannot_castle == false
         @castle = true
-        @cannot_castle = true
         return true
       end
     end
@@ -123,8 +117,9 @@ class King < ChessPiece
     if board.grid[row][col] == '-' && delta_y == 2
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
+      @cannot_castle = true
     else
-      puts 'Invalid move'
+      puts 'Invalid move...'
       false
     end
   end
