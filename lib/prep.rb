@@ -211,41 +211,98 @@ class Prep
   end
 
   def en_passant_movement(board)
-    if pawn1.sepuku(board) == true
-      in_row, in_col = @pawn1.position
-      @pawn1.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif pawn2.sepuku(board) == true
-      in_row, in_col = @pawn2.position
-      @pawn2.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif pawn3.sepuku(board) == true
-      in_row, in_col = @pawn3.position
-      @pawn3.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif @pawn4.sepuku(board) == true
-      in_row, in_col = @pawn4.position
-      @pawn4.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif @pawn5.sepuku(board) == true
-      in_row, in_col = @pawn5.position
-      @pawn5.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif @pawn6.sepuku(board) == true
-      in_row, in_col = @pawn6.position
-      @pawn6.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif @pawn7.sepuku(board) == true
-      in_row, in_col = @pawn7.position
-      @pawn7.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    elsif @pawn8.sepuku(board) == true
-      in_row, in_col = @pawn8.position
-      @pawn8.position = [nil, nil]
-      board.grid[in_row][in_col] = '-'
-    else
-      false
+    case color
+    when 'black'
+      if @pawn1.heist == true
+        row, col = @pawn1.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn2.heist == true
+        row, col = @pawn2.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn3.heist == true
+        row, col = @pawn3.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn4.heist == true
+        row, col = @pawn4.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn5.heist == true
+        row, col = @pawn5.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn6.heist == true
+        row, col = @pawn6.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn7.heist == true
+        row, col = @pawn7.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      elsif @pawn8.heist == true
+        row, col = @pawn8.position
+        black_in_row = row - 1
+        board.grid[black_in_row][col].position = [nil, nil]
+        board.grid[black_in_row][col] = '-'
+      else
+        false
+      end
+    when 'white'
+      if @pawn1.heist == true
+        row, col = @pawn1.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn2.heist == true
+        row, col = @pawn2.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn3.heist == true
+        row, col = @pawn3.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn4.heist == true
+        row, col = @pawn4.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn5.heist == true
+        row, col = @pawn5.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn6.heist == true
+        row, col = @pawn6.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn7.heist == true
+        row, col = @pawn7.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      elsif @pawn8.heist == true
+        row, col = @pawn8.position
+        white_in_row = row + 1
+        board.grid[white_in_row][col].position = [nil, nil]
+        board.grid[white_in_row][col] = '-'
+      else
+        false
+      end
     end
+    puts 'something went wrong'
+    false
   end
 
   def parameters(board, color)

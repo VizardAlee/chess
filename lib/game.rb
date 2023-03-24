@@ -139,7 +139,7 @@ class Game
               end
             end
             whites.move_rook(board) if whites.castle_check == true
-            blacks.en_passant_movement(board)
+            whites.en_passant_movement(board)
             board.layout
             break
           else
@@ -165,7 +165,7 @@ class Game
               end
             end
             blacks.move_rook(board) if blacks.castle_check == true
-            whites.en_passant_movement(board)
+            blacks.en_passant_movement(board)
             board.layout
             break
           else

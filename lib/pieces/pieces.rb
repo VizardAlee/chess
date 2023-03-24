@@ -2,7 +2,7 @@
 
 # piece class
 class ChessPiece
-  attr_accessor :position, :visited, :castle, :cannot_castle, :en_passant
+  attr_accessor :position, :visited, :castle, :cannot_castle, :en_passant, :heist
   attr_reader :color
 
   def initialize(color, row = nil, col = nil)
@@ -12,6 +12,7 @@ class ChessPiece
     @castle = false
     @cannot_castle = false # this is only meant for rook and king
     @en_passant = false # exclusively for pawn
+    @heist = false
   end
 
   def moveable?(board, row, col)
