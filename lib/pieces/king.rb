@@ -12,9 +12,9 @@ class King < ChessPiece
     return false unless obstructed?(board, row, col) == false
 
     unless (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
-      if castling(board, row, col) == true
+      if scout(board, row, col) == true
         true
-      elsif
+      else
         puts 'wrong move bro!'
         return false
       end
@@ -28,7 +28,9 @@ class King < ChessPiece
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
 
-    return castle_move(board, row, col) if castling(board, row, col) == true
+    if short_castling(board, row, col) == true || long_castling(board, row, col) == true
+      return castle_move(board, row, col)
+    end
 
     if (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
       move(board, row, col)
@@ -40,6 +42,24 @@ class King < ChessPiece
     end
   end
 
+  def scout(board, row, col)
+    if short_castling(board, row, col) == true
+      if board.grid[row][col + 1].cannot_castle == true
+        puts 'Cannot castle'
+        false
+      else
+        true
+      end
+    elsif long_castling(board, row, col) == true
+      if board.grid[row][col - 2].cannot_castle == true
+        puts 'Cannot castle'
+        false
+      else
+        true
+      end
+    end
+  end
+=begin
   def castling(board, row, col)
     return false if cannot_castle == true
 
@@ -52,6 +72,42 @@ class King < ChessPiece
       end
     when 'black'
       if obstructed?(board, row, col) == false && position == [0, 4] && (row == 0 && col == 6) || (row == 0 && col == 2)
+        @castle = true
+        @cannot_castle = true
+        return true
+      end
+    end
+    false
+  end
+=end
+  def short_castling(board, row, col)
+    case color
+    when 'white'
+      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 6)
+        @castle = true
+        @cannot_castle = true
+        return true
+      end
+    when 'black'
+      if obstructed?(board, row, col) == false && position == [0, 4] && (row.zero? && col == 6)
+        @castle = true
+        @cannot_castle = true
+        return true
+      end
+    end
+    false
+  end
+
+  def long_castling(board, row, col)
+    case color
+    when 'white'
+      if obstructed?(board, row, col) == false && position == [7, 4] && (row == 7 && col == 2)
+        @castle = true
+        @cannot_castle = true
+        return true
+      end
+    when 'black'
+      if obstructed?(board, row, col) == false && position == [0, 4] && (row.zero? && col == 2)
         @castle = true
         @cannot_castle = true
         return true

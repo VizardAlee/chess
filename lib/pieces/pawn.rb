@@ -13,6 +13,12 @@ class Pawn < ChessPiece
   def moveable?(board, row, col)
     super
 
+    in_row, in_col = @position
+    if row == in_row && col == in_col
+      puts 'You cannot take yourself out bro!'
+      return false
+    end
+
     return false unless obstructed?(board, row, col) == false
 
     unless first_move? == false
