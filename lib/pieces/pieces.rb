@@ -12,10 +12,12 @@ class ChessPiece
     @castle = false
     @cannot_castle = false # this is only meant for rook and king
     @en_passant = false # exclusively for pawn
-    @heist = false
+    @heist = false # activates when an en_passant activated piece is taken out
   end
 
   def moveable?(board, row, col)
+    return declaration if gone? == true
+
     unless board.in_bound?(row, col)
       puts 'Out of bounds!'
       return false

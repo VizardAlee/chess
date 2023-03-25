@@ -12,7 +12,6 @@ class Pawn < ChessPiece
 
   def moveable?(board, row, col)
     super
-    return declaration if gone? == true
 
     in_row, in_col = @position
     delta_x = (in_row - row).abs
@@ -26,9 +25,7 @@ class Pawn < ChessPiece
     return false unless obstructed?(board, row, col) == false
 
     unless first_move? == false
-      in_row = @position.first
-      delta_x = (in_row - row).abs
-      if delta_x > 2
+      if first_move_condition(board, row, col) == false
         puts 'Not so fast bro!'
         return false
       else
@@ -37,9 +34,7 @@ class Pawn < ChessPiece
     end
 
     unless first_move? == true
-      in_row = @position.first
-      delta_x = (in_row - row).abs
-      if delta_x > 1
+      if move_conditions(board, row, col) == false
         puts 'Only one step bro'
         return false
       else
@@ -72,7 +67,7 @@ class Pawn < ChessPiece
     return one_or_two_steps(board, row, col) if first_move? == true # first steps
     return en_passant_takeout(board, row, col) if en_passant_scout(board) == true # en passant things
 
-    if board.grid[row][col] == '-' && delta_x == 1
+    if board.grid[row][col] == '-' && move_conditions(board, row, col)
       @visited << in_row
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
@@ -94,6 +89,28 @@ class Pawn < ChessPiece
     @change = true
   end
 
+  def first_move_condition(board, row, col)
+    in_row, in_col = @position
+    delta_x = (in_row - row).abs
+    delta_y = (in_col - col).abs
+    return true if board.grid[row][col] == '-' && color == 'white' && delta_x == 1 || delta_x == 2 && delta_y.zero?
+    return true if board.grid[row][col] == '-' && color == 'black' && delta_x == 1 || delta_x == 2 && delta_y.zero?
+    return true if board.grid[row][col] != color && board.grid[row][col] != '-' && color == 'white' && delta_x == 1 && delta_y == 1
+    return true if board.grid[row][col] != color && board.grid[row][col] != '-' && color == 'black' && delta_x == 1 && delta_y == 1
+
+    puts "Can't go back bro!"
+    false
+  end
+
+  def move_conditions(board, row, col)
+    in_row = @position.first
+    return true if board.grid[row][col] == '-' && color == 'white' && in_row - row == 1
+    return true if board.grid[row][col] == '-' && color == 'black' && in_row - row == -1
+
+    puts "Can't go back bro!"
+    false
+  end
+
   def beyond_one(row)
     in_row = @position.first
     delta_x = (in_row - row).abs
@@ -109,7 +126,7 @@ class Pawn < ChessPiece
     in_row, in_col = @position
     delta_x = (in_row - row).abs
 
-    if first_move? == true && board.grid[row][col] == '-' && delta_x == 1 || delta_x == 2
+    if first_move? == true && first_move_condition(board, row, col)
       @en_passant = true if delta_x == 2
       @visited << in_row - 1 if delta_x == 2
       @visited << in_row
@@ -206,12 +223,11 @@ class Pawn < ChessPiece
   def en_passant_scout(board)
     in_row, in_col = @position
 
-    if board.grid[in_row][in_col + 1] != '-' && board.grid[in_row][in_col + 1].en_passant == true ||
-       board.grid[in_row][in_col - 1] != '-' && board.grid[in_row][in_col + 1].en_passant == true
+    if board.grid[in_row][in_col + 1] != '-' && board.grid[in_row][in_col + 1] != color && board.grid[in_row][in_col + 1].en_passant == true ||
+       board.grid[in_row][in_col - 1] != '-' && board.grid[in_row][in_col - 1] != color && board.grid[in_row][in_col + 1].en_passant == true
       puts 'En passannt detected'
       true
     else
-      puts 'No en passant detected'
       false
     end
   end
@@ -223,10 +239,16 @@ class Pawn < ChessPiece
     return false unless en_passant_scout(board) == true
 
     if board.grid[in_row][col].en_passant == true && (delta_x == 1 && delta_y == 1)
-      move(board, row, col)
+      board.grid[in_row][col].update_position(nil, nil)
+      board.grid[in_row][col].en_passant = false
+      p board.grid[in_row][col].position
       board.grid[in_row][in_col] = '-'
+      board.grid[in_row][col] = '-'
+      move(board, row, col)
       puts 'Pulled off the heist!'
       @heist = true
+      true
+    elsif board.grid[in_row][col].en_passant == true && move_conditions(board, row, col) == true
       true
     else
       puts 'Something is off'
