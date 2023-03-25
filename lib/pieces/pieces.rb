@@ -74,7 +74,33 @@ class ChessPiece
 
   # Need to work on this
   def take_out(board, row, col)
-    board.grid[row][col].position = [nil, nil] if board.grid[row][col] != '-' && board.grid[row][col].color != color
+    if board.grid[row][col] != '-' && board.grid[row][col].color != color
+      @heist = true
+      puts 'pulled off a heist!'
+      true
+    else
+      puts 'failed'
+      false
+    end
+  end
+
+  def eliminate(board, row, col)
+    if board.grid[row][col] != '-' && board.grid[row][col] != color
+      board.grid[row][col].update_position(nil, nil)
+      update_position(row, col)
+      puts "#{board.grid[row][col].class} eliminated!"
+    else
+      false
+    end
+  end
+
+  def gone?
+    position == [nil, nil]
+  end
+
+  def declaration
+    puts "#{self.class} has been eliminated!"
+    false
   end
 
   def not_on_board

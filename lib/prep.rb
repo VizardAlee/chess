@@ -305,6 +305,16 @@ class Prep
     false
   end
 
+  def the_kill(board)
+    row, col = @position
+    if pawn1.heist == true
+      board.grid[row][col].position = [nil, nil]
+      board.grid[row][col] = pawn1
+    else
+      false
+    end
+  end
+
   def parameters(board, color)
     case color
     when 'white'

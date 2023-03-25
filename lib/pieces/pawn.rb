@@ -12,6 +12,7 @@ class Pawn < ChessPiece
 
   def moveable?(board, row, col)
     super
+    return declaration if gone? == true
 
     in_row, in_col = @position
     delta_x = (in_row - row).abs
@@ -78,6 +79,7 @@ class Pawn < ChessPiece
       true
     elsif attackable?(board, row, col) == true && delta_x == 1 && delta_y == 1
       @visited << in_row
+      eliminate(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       true
@@ -117,6 +119,7 @@ class Pawn < ChessPiece
       return true
     elsif attackable?(board, row, col) == true
       @visited << in_row
+      eliminate(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       return true
@@ -229,10 +232,6 @@ class Pawn < ChessPiece
       puts 'Something is off'
       false
     end
-  end
-
-  def sepuku(board)
-    
   end
 
   def to_s
