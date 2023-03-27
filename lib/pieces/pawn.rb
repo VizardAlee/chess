@@ -21,7 +21,12 @@ class Pawn < ChessPiece
       return false
     end
 
-    return true if en_passant_scout(board) == true
+    if en_passant_scout(board) == true
+      return true
+    else
+      puts "What's your problem?"
+    end
+
     return false unless obstructed?(board, row, col) == false
 
     unless first_move? == false
@@ -43,6 +48,7 @@ class Pawn < ChessPiece
     end
 
     unless attackable?(board, row, col) == true
+      puts en_passant_scout(board)
       if board.grid[row][col] == '-'
         puts "You can't move diagonally here bro"
       else
@@ -67,6 +73,7 @@ class Pawn < ChessPiece
     return one_or_two_steps(board, row, col) if first_move? == true # first steps
     return en_passant_takeout(board, row, col) if en_passant_scout(board) == true # en passant things
 
+    en_passant_scout(board)
     if board.grid[row][col] == '-' && move_conditions(board, row, col)
       @visited << in_row
       move(board, row, col)
@@ -74,7 +81,7 @@ class Pawn < ChessPiece
       true
     elsif attackable?(board, row, col) == true && delta_x == 1 && delta_y == 1
       @visited << in_row
-      eliminate(board, row, col)
+      pawn_attack(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       true
@@ -106,6 +113,7 @@ class Pawn < ChessPiece
     in_row = @position.first
     return true if board.grid[row][col] == '-' && color == 'white' && in_row - row == 1
     return true if board.grid[row][col] == '-' && color == 'black' && in_row - row == -1
+    return true if attackable?(board, row, col) == true
 
     puts "Can't go back bro!"
     false
@@ -136,7 +144,7 @@ class Pawn < ChessPiece
       return true
     elsif attackable?(board, row, col) == true
       @visited << in_row
-      eliminate(board, row, col)
+      pawn_attack(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       return true
@@ -223,13 +231,18 @@ class Pawn < ChessPiece
   def en_passant_scout(board)
     in_row, in_col = @position
 
-    if board.grid[in_row][in_col + 1] != '-' && board.grid[in_row][in_col + 1] != color && board.grid[in_row][in_col + 1].en_passant == true ||
-       board.grid[in_row][in_col - 1] != '-' && board.grid[in_row][in_col - 1] != color && board.grid[in_row][in_col + 1].en_passant == true
-      puts 'En passannt detected'
-      true
-    else
-      false
+    if board.grid[in_row][in_col + 1] != '-'
+      puts board.grid[in_row][in_col + 1].en_passant
+      return true
+    elsif board.grid[in_row][in_col - 1] != '-'
+      puts board.grid[in_row][in_col - 1].en_passant
+      return true
+    elsif board.grid[in_row][in_col - 1] == '-' || board.grid[in_row][in_col + 1] == '-'
+      puts 'please work already!'
     end
+
+    puts 'Nothing more here'
+    false
   end
 
   def en_passant_takeout(board, row, col)
