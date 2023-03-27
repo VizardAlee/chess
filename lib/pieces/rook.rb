@@ -24,6 +24,7 @@ class Rook < ChessPiece
     delta_y = (in_col - col).abs
 
     if (delta_x.zero? && delta_y >= 1) || (delta_x >= 1 && delta_y.zero?)
+      eliminate(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       @cannot_castle = true

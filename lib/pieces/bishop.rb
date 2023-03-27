@@ -24,6 +24,7 @@ class Bishop < ChessPiece
     delta_y = (in_col - col).abs
 
     if (delta_x - delta_y).abs.zero?
+      eliminate(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
     else

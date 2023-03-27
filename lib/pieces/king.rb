@@ -31,6 +31,7 @@ class King < ChessPiece
     return castle_move(board, row, col) if scout(board, row, col) == true
 
     if (delta_x == 1 && delta_y == 1) || (delta_x.zero? && delta_y == 1) || (delta_x == 1 && delta_y.zero?)
+      eliminate(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       @cannot_castle = true

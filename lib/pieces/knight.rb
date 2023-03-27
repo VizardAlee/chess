@@ -23,6 +23,7 @@ class Knight < ChessPiece
     delta_y = (in_col - col).abs
 
     if (delta_x == 2 && delta_y == 1) || (delta_x == 1 && delta_y == 2)
+      eliminate(board, row, col)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
     else

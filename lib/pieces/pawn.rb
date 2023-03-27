@@ -235,12 +235,11 @@ class Pawn < ChessPiece
       puts board.grid[in_row][in_col + 1].en_passant
       return true
     elsif board.grid[in_row][in_col - 1] != '-'
-      puts board.grid[in_row][in_col - 1].en_passant
+      puts board.grid[in_row][in_col + 1].en_passant
       return true
-    elsif board.grid[in_row][in_col - 1] == '-' || board.grid[in_row][in_col + 1] == '-'
-      puts 'please work already!'
+    elsif board.grid[in_row][in_col - 1] == '-' || board.grid[in_row][in_col] == '-'
+      true
     end
-
     puts 'Nothing more here'
     false
   end
