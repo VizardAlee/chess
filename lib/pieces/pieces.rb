@@ -16,6 +16,10 @@ class ChessPiece
   end
 
   def moveable?(board, row, col)
+    return declaration if gone?
+
+    return false if row.class != Integer || col.class != Integer
+
     unless board.in_bound?(row, col)
       puts 'Out of bounds!'
       return false
@@ -91,6 +95,7 @@ class ChessPiece
       board.grid[row][col].update_position(nil, nil)
       update_position(row, col)
       puts "#{board.grid[row][col].class} eliminated!"
+      true
     else
       false
     end

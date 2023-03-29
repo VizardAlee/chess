@@ -13,22 +13,53 @@ class Pawn < ChessPiece
   def moveable?(board, row, col)
     super
 
+    arr = [0, 1, 2, 3, 4, 5, 6, 7]
+    if arr.none? {|val| val == row} || arr.none? {|val| val == col}
+      puts 'Invalid row value'
+      return false
+    end
     in_row, in_col = @position
     delta_x = (in_row - row).abs
     delta_y = (in_col - row).abs
+
+    if delta_x > 2
+      puts 'not more than 2 steps champ!'
+      return false
+    end
+
     if row == in_row && col == in_col
       puts 'You cannot take yourself out bro!'
       return false
     end
 
+    unless first_move? == false
+      puts 'first move'
+      return true if first_move_condition(board, row, col) == true
+      return false if attackable?(board, row, col) == false
+
+      false
+    end
+
+
     if en_passant_scout(board) == true
       return true
     else
-      puts "What's your problem?"
+      false
     end
 
     return false unless obstructed?(board, row, col) == false
 
+    unless first_move? == true
+      puts 'not first move'
+      if move_conditions(board, row, col) == false
+        puts 'Only one step bro'
+        return false
+      else
+        true
+      end
+    end
+
+=begin
     unless first_move? == false
       if first_move_condition(board, row, col) == false
         puts 'Not so fast bro!'
@@ -46,7 +77,7 @@ class Pawn < ChessPiece
         true
       end
     end
-
+=end
     unless attackable?(board, row, col) == true
       puts en_passant_scout(board)
       if board.grid[row][col] == '-'
@@ -74,7 +105,7 @@ class Pawn < ChessPiece
     return en_passant_takeout(board, row, col) if en_passant_scout(board) == true # en passant things
 
     en_passant_scout(board)
-    if board.grid[row][col] == '-' && move_conditions(board, row, col)
+    if board.grid[row][col] == '-' && move_conditions(board, row, col) == true
       @visited << in_row
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
@@ -98,21 +129,43 @@ class Pawn < ChessPiece
 
   def first_move_condition(board, row, col)
     in_row, in_col = @position
-    delta_x = (in_row - row).abs
+    delta_x = in_row - row
     delta_y = (in_col - col).abs
-    return true if board.grid[row][col] == '-' && color == 'white' && delta_x == 1 || delta_x == 2 && delta_y.zero?
-    return true if board.grid[row][col] == '-' && color == 'black' && delta_x == 1 || delta_x == 2 && delta_y.zero?
-    return true if board.grid[row][col] != color && board.grid[row][col] != '-' && color == 'white' && delta_x == 1 && delta_y == 1
-    return true if board.grid[row][col] != color && board.grid[row][col] != '-' && color == 'black' && delta_x == 1 && delta_y == 1
+    return false if color == 'white' && delta_x != 1 && delta_y != 1
+    return false if color == 'white' && delta_x != -1 && delta_y != 1
+    return false if color == 'white' && delta_x > 2
+    return false if color == 'black' && delta_x < -2
+    return true if attackable?(board, row, col) == true
 
-    puts "Can't go back bro!"
+    if board.grid[row][col] == '-' && color == 'white' && delta_x == 1 || delta_x == 2 && delta_y.zero?
+      if delta_x == 1 && delta_y == 1 && board.grid[row][col].en_passant == false
+        puts 'nah man...'
+        return false
+      else
+        puts 'one'
+        return true
+      end
+    end
+    if board.grid[row][col] == '-' && color == 'black' && delta_x == -1 || delta_x == -2 && delta_y.zero?
+      if delta_x == -1 && delta_y == 1
+        puts 'nah man 2'
+        return false
+      else
+        puts 'two'
+        return true
+      end
+    end
+
+    puts "not that direction"
     false
   end
 
   def move_conditions(board, row, col)
     in_row = @position.first
-    return true if board.grid[row][col] == '-' && color == 'white' && in_row - row == 1
-    return true if board.grid[row][col] == '-' && color == 'black' && in_row - row == -1
+    return false if color == 'white' && in_row - row > 1
+    return false if color == 'black' && in_row - row < -1
+    return true if board.grid[row][col] == '-' && color == 'white' && in_row - row == 1 && in_row - row > 2
+    return true if board.grid[row][col] == '-' && color == 'black' && in_row - row == -1 && in_row - row < -2
     return true if attackable?(board, row, col) == true
 
     puts "Can't go back bro!"
@@ -134,7 +187,7 @@ class Pawn < ChessPiece
     in_row, in_col = @position
     delta_x = (in_row - row).abs
 
-    if first_move? == true && first_move_condition(board, row, col)
+    if first_move? == true && first_move_condition(board, row, col) == true
       @en_passant = true if delta_x == 2
       @visited << in_row - 1 if delta_x == 2
       @visited << in_row
@@ -148,7 +201,12 @@ class Pawn < ChessPiece
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
       return true
+    else
+      puts 'attempt failed'
+      return false
     end
+
+    puts "didn't work"
     false
   end
 
@@ -231,16 +289,17 @@ class Pawn < ChessPiece
   def en_passant_scout(board)
     in_row, in_col = @position
 
+    return false if (color == 'white' && in_row != 3) || (color == 'black' && in_row != 4)
+
     if board.grid[in_row][in_col + 1] != '-'
-      puts board.grid[in_row][in_col + 1].en_passant
+      board.grid[in_row][in_col + 1].en_passant
       return true
     elsif board.grid[in_row][in_col - 1] != '-'
-      puts board.grid[in_row][in_col + 1].en_passant
+      board.grid[in_row][in_col + 1].en_passant
       return true
     elsif board.grid[in_row][in_col - 1] == '-' || board.grid[in_row][in_col] == '-'
-      true
+      false
     end
-    puts 'Nothing more here'
     false
   end
 
@@ -253,7 +312,7 @@ class Pawn < ChessPiece
     if board.grid[in_row][col].en_passant == true && (delta_x == 1 && delta_y == 1)
       board.grid[in_row][col].update_position(nil, nil)
       board.grid[in_row][col].en_passant = false
-      p board.grid[in_row][col].position
+      board.grid[in_row][col].position
       board.grid[in_row][in_col] = '-'
       board.grid[in_row][col] = '-'
       move(board, row, col)
