@@ -13,11 +13,19 @@ class Pawn < ChessPiece
   def moveable?(board, row, col)
     super
 
+    if position == [nil, nil]
+      puts "#{self.class} has been eliminated!"
+      return false
+    end
+
+    return false if board.grid[row][col] == color && board.grid[row][col] != '-'
+
     arr = [0, 1, 2, 3, 4, 5, 6, 7]
-    if arr.none? {|val| val == row} || arr.none? {|val| val == col}
+    if arr.none? { |val| val == row } || arr.none? { |val| val == col }
       puts 'Invalid row value'
       return false
     end
+
     in_row, in_col = @position
     delta_x = (in_row - row).abs
     delta_y = (in_col - row).abs
@@ -32,7 +40,7 @@ class Pawn < ChessPiece
       return false
     end
 
-    unless first_move? == false
+    if first_move? == true
       puts 'first move'
       return true if first_move_condition(board, row, col) == true
       return false if attackable?(board, row, col) == false
@@ -138,7 +146,7 @@ class Pawn < ChessPiece
     return true if attackable?(board, row, col) == true
 
     if board.grid[row][col] == '-' && color == 'white' && delta_x == 1 || delta_x == 2 && delta_y.zero?
-      if delta_x == 1 && delta_y == 1 && board.grid[row][col].en_passant == false
+      if delta_x == 1 && delta_y == 1
         puts 'nah man...'
         return false
       else
@@ -156,7 +164,7 @@ class Pawn < ChessPiece
       end
     end
 
-    puts "not that direction"
+    puts 'not that direction'
     false
   end
 

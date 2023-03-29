@@ -6,6 +6,12 @@ require_relative 'pieces'
 class Bishop < ChessPiece
   def moveable?(board, row, col)
     super
+
+    if position == [nil, nil]
+      puts "#{self.class} has been eliminated!"
+      return false
+    end
+
     in_row, in_col = position
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs
