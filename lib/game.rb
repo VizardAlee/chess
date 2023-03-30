@@ -150,7 +150,7 @@ class Game
         loop do
           storage = []
           puts 'choose piece'
-          storage << gets.chomp
+          storage << gets.chomp.downcase
           puts 'choose row'
           storage << gets.chomp.to_i
           puts 'choose column'
