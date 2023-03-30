@@ -12,6 +12,16 @@ class Rook < ChessPiece
       return false
     end
 
+    return true if board.grid[row][col].instance_of?(King) && board.grid[row][col] != color
+
+    return false if board.grid[row][col] == color || board.grid[row][col] != '-'
+
+    arr = [0, 1, 2, 3, 4, 5, 6, 7]
+    if arr.none? { |val| val == row } || arr.none? { |val| val == col }
+      puts 'Invalid row value'
+      return false
+    end
+
     in_row, in_col = position
     delta_x = (in_row - row).abs
     delta_y = (in_col - col).abs

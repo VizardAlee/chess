@@ -67,25 +67,6 @@ class Pawn < ChessPiece
       end
     end
 
-=begin
-    unless first_move? == false
-      if first_move_condition(board, row, col) == false
-        puts 'Not so fast bro!'
-        return false
-      else
-        true
-      end
-    end
-
-    unless first_move? == true
-      if move_conditions(board, row, col) == false
-        puts 'Only one step bro'
-        return false
-      else
-        true
-      end
-    end
-=end
     unless attackable?(board, row, col) == true
       puts en_passant_scout(board)
       if board.grid[row][col] == '-'

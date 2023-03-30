@@ -37,10 +37,10 @@ class ChessPiece
     delta_y = (in_col - col).abs
 
     if delta_y == 1 && board.grid[row][col] != color || board.grid[row][col] != '-'
+      puts "#{board.grid[row][col].class} eliminated!"
       board.grid[row][col].update_position(nil, nil)
       move(board, row, col)
       board.grid[in_row][in_col] = '-'
-      puts "#{board.grid[row][col].class} eliminated!"
       return true
     end
     false
