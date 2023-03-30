@@ -14,7 +14,10 @@ class Knight < ChessPiece
 
     return true if board.grid[row][col].instance_of?(King) && board.grid[row][col] != color
 
-    return false if board.grid[row][col] == color || board.grid[row][col] != '-'
+    if board.grid[row][col] == color && board.grid[row][col] != '-'
+      puts 'friendly fire'
+      return false
+    end
 
     arr = [0, 1, 2, 3, 4, 5, 6, 7]
     if arr.none? { |val| val == row } || arr.none? { |val| val == col }

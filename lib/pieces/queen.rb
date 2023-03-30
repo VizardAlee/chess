@@ -14,7 +14,7 @@ class Queen < ChessPiece
 
     return true if board.grid[row][col].instance_of?(King) && board.grid[row][col] != color
 
-    if board.grid[row][col] == color || board.grid[row][col] != '-'
+    if board.grid[row][col] == color && board.grid[row][col] != '-'
       puts 'friendly fire'
       return false
     end
